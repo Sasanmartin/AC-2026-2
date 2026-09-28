@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Estudio I1 — Arquitectura de Computadores (2026-2)</title>
+<style>
+:root { --accent: #1a5276; --light: #eaf2f8; }
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+       color: #222; max-width: 900px; margin: 0 auto; padding: 24px;
+       line-height: 1.45; font-size: 14px; }
+h1 { color: var(--accent); font-size: 1.6em; border-bottom: 3px solid var(--accent);
+     padding-bottom: 6px; }
+h2 { color: var(--accent); font-size: 1.3em; margin-top: 28px;
+     border-bottom: 1px solid #bbb; padding-bottom: 3px; }
+h3 { font-size: 1.1em; margin-top: 20px; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 13px; }
+th, td { border: 1px solid #999; padding: 4px 8px; text-align: left; vertical-align: top; }
+th { background: var(--light); }
+tr:nth-child(even) td { background: #fafafa; }
+code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: 0.9em;
+       font-family: Consolas, Menlo, monospace; }
+pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+blockquote { border-left: 4px solid var(--accent); margin: 8px 0;
+             padding: 4px 12px; background: var(--light); }
+ul, ol { margin: 6px 0; }
+hr { border: none; border-top: 2px dashed #bbb; margin: 18px 0; }
+section { margin-bottom: 10px; }
+.page-break { break-before: page; }
+@media print {
+  body { max-width: 100%; padding: 0; font-size: 11px; }
+  section { break-inside: avoid-page; }
+}
+</style>
+</head>
+<body>
+<header style="text-align:center;border-bottom:3px solid #1a5276;padding-bottom:10px;margin-bottom:16px;">
+  <h1 style="border:none;font-size:1.8em;color:#1a5276;">Estudio I1 — Arquitectura de Computadores 2026-2</h1>
+  <p style="color:#555;">Generado desde <code>Estudio-I1/</code> · imprime o guarda como PDF (Ctrl+P)</p>
+</header>
+<section>
+<h1 style="font-size:1.15em;color:#666;">Índice</h1>
+<h1>Estudio I1 — Arquitectura de Computadores (2026-2)</h1>
+<p>Material de estudio para la Interrogación 1. Basado en las clases de la Sección 1<br />
+(Syllabus-2026-2/Clases/S1) y en las I1 históricas (guardadas en <code>Estudio-I1/Interrogaciones/</code>).</p>
+<h2>Contenido de la carpeta</h2>
+<ul>
+<li><code>cheatsheet-*.md</code> — resúmenes de 1 página por tema.</li>
+<li><code>hoja-apuntes.md</code> — guía para copiar a mano tu hoja permitida.</li>
+<li><code>plan-de-estudio.md</code> — plan día a día (con checklist de progreso).</li>
+<li><code>Estudio-I1-imprimible.html</code> — todo el material en un solo archivo para leer/imprimir (Ctrl+P → PDF).</li>
+<li><code>Ayudantias/</code> — ayudantías 2026-2 con pauta (AY1 representación, AY2 lógica digital).</li>
+<li><code>Ayudantias-2026-1/</code> — ayudantías 2026-1 (AY1-AY6) con pauta, muy alineadas a la I1 real.</li>
+<li><code>Interrogaciones/&lt;año&gt;/</code> — I1 históricas (las que usa el plan), incluida la <strong>I1 real de 2026-1</strong>.</li>
+<li><code>_render_imprimible.py</code> — script que regenera el HTML imprimible tras editar los <code>.md</code>.</li>
+</ul>
+<h2>Formato esperado de la I1 (3 preguntas)</h2>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Tema</th>
+<th>Cheatsheet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td>Representación de números</td>
+<td><code>cheatsheet-1-representacion.md</code></td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Circuitos digitales y almacenamiento</td>
+<td><code>cheatsheet-2-circuitos.md</code> + <code>cheatsheet-3-almacenamiento.md</code></td>
+</tr>
+<tr>
+<td>P3</td>
+<td>Computador básico con saltos (microarquitectura + simulación)</td>
+<td><code>cheatsheet-4-assembly-saltos.md</code> + <code>cheatsheet-5-microarquitectura.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Cómo usar con 1-2 días</h2>
+<ol>
+<li>Lee el <code>plan-de-estudio.md</code> primero.</li>
+<li>Cada cheatsheet es de 1 página: reglas + patrón + ejemplo resuelto. Léelos de arriba a abajo y luego <strong>resuelve las preguntas históricas asignadas en el plan</strong>.</li>
+<li>Las pautas de las interrogaciones están en <code>Estudio-I1/Interrogaciones/&lt;año&gt;/</code> (el PDF incluye la solución). Corrige siempre con desarrollo escrito (la pauta exige justificación).</li>
+<li>Simula condiciones reales: una prueba completa en ~2 h cronometradas.</li>
+</ol>
+<h2>Recursos adicionales del curso (integrados al plan)</h2>
+<ul>
+<li><strong>Ayudantías</strong> (formato I1, con pauta): <code>Estudio-I1/Ayudantias/</code> (2026-2: AY1 representación, AY2 lógica digital) y <code>Estudio-I1/Ayudantias-2026-1/</code> (AY1-AY6).</li>
+<li><strong>Guías de ejercicios</strong> relevantes para la I1 en <code>Syllabus-2026-2/Material Extra/</code>: Representación de números, Lógica Digital, Almacenamiento y Assembly y Saltos.</li>
+<li>Las demás guías (caché, I/O, jerarquía, RISC-V, floats, ILP, coherencia) son de I2/I3: <strong>ignorar para la I1</strong>.</li>
+</ul>
+<h2>Prioridad (si el tiempo apremia)</h2>
+<ol>
+<li>P1 representación + P2 circuitos (fijas y con mayor puntaje garantizable).</li>
+<li>P3: microarquitectura (señales de control) — vale 3 ítems en la I1 real de 2026-1.</li>
+<li>P3: simulación de assembly con saltos (lo que más cae en la última pregunta).</li>
+</ol>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Cheatsheet 1 · Representación de números (P1)</h1>
+<h1>Cheatsheet 1 — Representación de números (P1)</h1>
+<h2>1. Sistema posicional</h2>
+<p>Un número en base <code>b</code>: cada símbolo vale <code>símbolo × b^k</code> (k = posición desde la derecha, partiendo en 0).</p>
+<pre><code>1234 (base 4) = 1·4² + 2·4¹ + 3·4⁰  →  no existe, el 4 no es dígito válido en base 4
+0xCAFE = C·16³ + A·16² + F·16¹ + E·16⁰ = 12·4096 + 10·256 + 15·16 + 14 = 51966
+</code></pre>
+<h2>2. Conversión rápida (bases potencia de 2)</h2>
+<ul>
+<li><strong>bin → hex</strong>: agrupar de a 4 bits (desde la derecha); cada grupo = 1 dígito hex. <code>1100 1010 1111 1110 = C A F E</code></li>
+<li><strong>bin → oct</strong>: agrupar de a 3 bits. <code>110 010 101 111 110 = 6 2 5 7 6</code></li>
+<li><strong>dec → bin</strong>: divisiones sucesivas por 2, los restos al revés. <code>13 → 1101</code></li>
+<li><strong>bin → dec</strong>: sumar potencias de 2 según posición de los 1s.</li>
+<li><strong>base 8 → base 4</strong> (tipo I1 2025-2): cada dígito oct → 3 bits, agrupar de a 2 bits (agregar 0 a la izquierda si falta), cada grupo → dígito base 4.</li>
+<li><code>712₈ = 111 001 010b → 01 11 00 10 10b = 1,3,0,2,2 → 13022₄</code></li>
+</ul>
+<h2>3. Números negativos</h2>
+<table>
+<thead>
+<tr>
+<th>Representación</th>
+<th>Cómo</th>
+<th>Cero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signo y magnitud</td>
+<td>bit MSB = signo</td>
+<td>0000 y 1000 (dos ceros)</td>
+</tr>
+<tr>
+<td>Complemento 1 (C1)</td>
+<td>negar todos los bits</td>
+<td>0000 y 1111 (dos ceros)</td>
+</tr>
+<tr>
+<td><strong>Complemento 2 (C2)</strong></td>
+<td><strong>C1 + 1</strong></td>
+<td>único: <code>0000</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>C2 resuelve los 3 problemas de signo y magnitud (sin bit de signo propio, suma directa sin paso extra, un solo cero).</li>
+<li><strong>Desbalanceado</strong>: con n bits rango <code>[-2^(n-1), +2^(n-1) − 1]</code> (8 bits: −128..127). Siempre hay un negativo sin su positivo.</li>
+</ul>
+<h2>4. Cálculo de C2 (de un hex a decimal)</h2>
+<pre><code>0x8F = 1000 1111b   (MSB = 1 → negativo)
+magnitud = C2(10001111) = negar (01110000) + 1 = 01110001 = 113
+resultado = −113
+</code></pre>
+<h2>5. Overflow y carry</h2>
+<ul>
+<li><strong>Carry (C)</strong>: bit que sale del bit más significativo en suma/resta (o bit descartado en shift).</li>
+<li><strong>Overflow (O)</strong>: resultado fuera del rango de la representación <strong>con signo</strong>. Depende de los signos:</li>
+<li>A ≥ 0, B ≥ 0 → O=1 si A+B &lt; 0</li>
+<li>A &lt; 0, B &lt; 0 → O=1 si A+B ≥ 0</li>
+<li>A ≥ 0, B &lt; 0 → O=1 si A−B &lt; 0</li>
+<li>A &lt; 0, B ≥ 0 → O=1 si A−B ≥ 0</li>
+<li><strong>Carry ≠ overflow</strong>: <code>−1 + −2 = (1)1101</code> en 4 bits → hay carry, no overflow. El carry solo indica overflow en representación <strong>sin signo</strong>.</li>
+</ul>
+<h2>6. Extensión de bits (8 → 16)</h2>
+<ul>
+<li>Positivo: rellenar con 0s a la izquierda. Negativo: rellenar con 1s. Mantiene el valor.</li>
+</ul>
+<h2>7. Número mínimo de bits</h2>
+<p><code>x=0 → 1 bit; x&gt;0 → ⌊log2(x)⌋ + 1</code>.</p>
+<h2>8. Endianness</h2>
+<ul>
+<li>Big endian: bytes MSB primero en memoria. Little endian: bytes LSB primero.</li>
+<li>2 bytes big <code>0x0104</code> = 260 → little = <code>0x0401</code> = 1025.</li>
+</ul>
+<h2>9. Justificar por qué funciona una conversión directa (tipo I1 2026-1)</h2>
+<p>Piden justificar con la fórmula <code>Σ sₖ·bₖ</code> por qué hex→bin directo funciona:<br />
+- <strong>Idea clave</strong>: 16 es potencia de 2 (16 = 2⁴), ambas bases son potencia del mismo número.<br />
+- Cada dígito hex <code>sₖ · 16ᵏ = sₖ · 2^(4k)</code> → equivale a 4 bits (los dígitos hex 0-F usan 4 bits).<br />
+- Ejemplo: <code>0x12 = 2·16⁰ + 1·16¹ = 2·2⁰ + 1·2⁴ = 0001 0010b</code>. Los "huecos" son los bits 0 que se rellenan.<br />
+- Responder: expansión con la fórmula + mostrar que el dígito se descompone en 4 bits → justifica la agrupación.</p>
+<h2>Ejemplo tipo prueba (I1 2024-1 / clase 01)</h2>
+<blockquote>
+<p><code>0xCAFE</code> en C2 → −13570. Pasos: binario <code>1100101011111110</code>, MSB=1 → negativo, C2 = <code>0011010100000010</code> = 13570 → <strong>−13570</strong>.</p>
+</blockquote>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Cheatsheet 2 · Circuitos digitales (P2)</h1>
+<h1>Cheatsheet 2 — Circuitos digitales (P2)</h1>
+<h2>1. Compuertas lógicas básicas</h2>
+<table>
+<thead>
+<tr>
+<th>Compuerta</th>
+<th>Salida = 1 si...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NOT</td>
+<td>entrada = 0</td>
+</tr>
+<tr>
+<td>AND</td>
+<td>ambas = 1</td>
+</tr>
+<tr>
+<td>OR</td>
+<td>al menos una = 1</td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>ambas distintas</td>
+</tr>
+<tr>
+<td>NAND</td>
+<td>NO(AND) = 0 solo si ambas = 1</td>
+</tr>
+<tr>
+<td>NOR</td>
+<td>NO(OR) = 1 solo si ambas = 0</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Tabla de verdad → circuito (minterms y maxterms)</h2>
+<p>Procedimiento fijo para "diseñe el circuito":<br />
+1. Hacer la tabla de verdad.<br />
+2. <strong>Minterms</strong> (fila = 1): <code>NOT</code> las variables en 0, <code>AND</code> las de cada fila, <code>OR</code> todas.<br />
+3. <strong>Maxterms</strong> (fila = 0): <code>NOT</code> las variables en 1, <code>OR</code> las de cada fila, <code>AND</code> todas.<br />
+4. Simplificar con álgebra booleana si piden circuito reducido.</p>
+<pre><code>A B C | Out
+0 0 1 |  1      Out = (NOT A AND NOT B AND C)
+1 0 1 |  1            OR (A AND NOT B AND C)
+1 1 1 |  1            OR (A AND B AND C)
+</code></pre>
+<h2>3. Sumador y restador</h2>
+<ul>
+<li><strong>Half Adder (HA)</strong>: <code>S = A XOR B</code>, <code>Cout = A AND B</code>.</li>
+<li><strong>Full Adder (FA)</strong>: dos HA + OR: <code>S = A XOR B XOR Cin</code>, <code>Cout = c1 OR c2</code>.</li>
+<li><strong>Sumador de n bits</strong>: n FA encadenados por Cin.</li>
+<li><strong>Sumador-Restador</strong>: con XOR y <code>Cin</code> como control. <code>Cin=0 → A+B</code>, <code>Cin=1 → A−B</code> (B se niega y se suma 1).</li>
+<li><strong>Restador</strong>: sumar el complemento a 2 del sustraendo.</li>
+</ul>
+<h2>4. Circuitos de control</h2>
+<ul>
+<li><strong>Enabler</strong>: AND con señal E → pasa el dato si E=1, saca 0 si E=0.</li>
+<li><strong>Multiplexor (Mux)</strong>: S selecciona entre entradas. <code>2 a 1</code>: <code>M = (NOT S AND A) OR (S AND B)</code>. 4 a 1 usa S1,S0.</li>
+<li><strong>Demux</strong>: S dirige la entrada a una de varias salidas.</li>
+</ul>
+<h2>5. Flags de la ALU</h2>
+<p>Z (resultado = 0), N (resultado negativo), C (carry/bit descartado), O (overflow). Se guardan en el registro Status para los saltos.</p>
+<h2>6. Circuitos secuenciales — Contador con flip-flops D (¡muy frecuente!)</h2>
+<p>Patrón para contadores de 2 o 3 bits (I1 2024-2, 2025-1, 2025-2):<br />
+1. Definir la tabla de verdad del siguiente estado <code>Q(t+1)</code> según el estado <code>Q(t)</code>.<br />
+2. Derivar la expresión de cada bit (ej. contador que incrementa):<br />
+   - <code>Q0(t+1) = NOT Q0</code><br />
+   - <code>Q1(t+1) = Q0 XOR Q1</code><br />
+   - <code>Q2(t+1) = (Q0 AND Q1) XOR Q2</code><br />
+3. Conectar cada salida a su flip-flop D y las compuertas a los <code>D</code>.</p>
+<p><strong>Con condición</strong> (ej. "incrementa solo si A=1"):<br />
+- <code>Q(t+1) = (A AND incrementado) OR (NOT A AND Q(t))</code> → equivale a un <strong>multiplexor</strong> con A como selector entre "incrementado" y "actual".<br />
+- Para decrementar, <code>Q1(t+1) = Q0 XNOR Q1</code>.</p>
+<h2>Ejemplo tipo prueba (patrón que cae: contador con condición)</h2>
+<blockquote>
+<p>Contador de 2 bits que <strong>decrementa</strong> y que resetea a <code>11</code> si botón B=1:<br />
+<code>Q0(t+1) = B OR (NOT Q0)</code>, <code>Q1(t+1) = B OR (Q0 XNOR Q1)</code>.<br />
+Diseñar = flip-flops D + XOR/XNOR + mux/OR para la condición.</p>
+</blockquote>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Cheatsheet 3 · Almacenamiento de datos (P2)</h1>
+<h1>Cheatsheet 3 — Almacenamiento de datos (P2)</h1>
+<h2>1. Latches y Flip-Flops</h2>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latch RS</td>
+<td>S=1 → Q=1; R=1 → Q=0; S=R=1 → mantiene Q(t); S=R=0 → indefinido</td>
+</tr>
+<tr>
+<td>Latch D</td>
+<td>D=1 y C=1 → Q=1; D=0 y C=1 → Q=0; C=0 → mantiene</td>
+</tr>
+<tr>
+<td><strong>Flip-Flop D</strong></td>
+<td>Solo cambia en el <strong>flanco de subida</strong> (↑) del clock: <code>Q(t+1) = D</code>. El resto del tiempo mantiene el valor</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>El latch es sensible a nivel; el flip-flop es sensible al <strong>flanco</strong> (eso resuelve el problema de activarse en un instante preciso).</li>
+</ul>
+<h2>2. Reloj y registros</h2>
+<ul>
+<li>Reloj = tren de pulsos con ancho e intervalo precisos. Todos los registros de un computador usan el mismo reloj.</li>
+<li><strong>Registro</strong> = conjunto de N flip-flops D (N = bits de la palabra). Tiene control de carga (L) y reset (R):</li>
+<li><code>↑, L=1 → Q = entrada</code>; <code>↑, L=0 → mantiene</code>.</li>
+<li><strong>Registro contador</strong>: registro + señal Up (suma 1) / Down (resta 1) en cada flanco.</li>
+</ul>
+<h2>3. Memorias</h2>
+<ul>
+<li><strong>RAM</strong>: acceso por dirección (direccionamiento). Palabras de 8 bits típicamente. Permite leer y escribir (<code>WE</code>).</li>
+<li>256 celdas = direcciones <code>00000000</code> a <code>11111111</code> (2^8).</li>
+<li>RAM de <strong>doble puerto</strong> (tipo I1 2023-2): dos direcciones de lectura/escritura simultáneas → dos mux para DataOut, dos demux para WE/DataIn, OR por registro.</li>
+</ul>
+<h2>4. Variables y arreglos</h2>
+<ul>
+<li><strong>Variable</strong>: valor temporal con un único tipo, guardado en registros o RAM.</li>
+<li><strong>Arreglo</strong>: variable con 4 atributos → <strong>tipo de dato, endianness, largo y dirección de inicio</strong>. Se indexa para acceder a cada elemento.</li>
+</ul>
+<h2>5. Endianness (¡saber calcular!)</h2>
+<ul>
+<li>Dato multibyte almacenado en direcciones consecutivas:</li>
+<li><strong>Big endian</strong>: byte más significativo primero (en la dirección más baja).</li>
+<li><strong>Little endian</strong>: byte menos significativo primero.</li>
+<li>Ejemplo: <code>int 0x0FA71D23</code> de 4 bytes:</li>
+<li>Big: <code>mem[0]=0x0F, mem[1]=0xA7, mem[2]=0x1D, mem[3]=0x23</code></li>
+<li>Little: <code>mem[0]=0x23, mem[1]=0x1D, mem[2]=0xA7, mem[3]=0x0F</code></li>
+</ul>
+<h2>Ejemplo tipo prueba (I1 2022-1: "La Memoria, Mi Dato...")</h2>
+<blockquote>
+<p>Disponible en <code>Interrogaciones/2022-1/IIC2343-2022-1-S2-Memoria-Palindromo.pdf</code>.<br />
+Arreglo de 3 enteros sin signo de 16 bits desde la dirección 1, little-endian, palabras de 8 bits:<br />
+juntar de a 2 bytes al revés (<code>byte1|byte0</code>), luego convertir el entero (a octal si lo piden).</p>
+</blockquote>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Cheatsheet 4 · Assembly y saltos (P3)</h1>
+<h1>Cheatsheet 4 — Assembly del computador básico y saltos (P3)</h1>
+<h2>1. Estructura de un programa</h2>
+<pre><code>DATA:
+  a  5        ; variables (datos) primero
+  b  3
+CODE:
+  MOV A, (a)  ; instrucciones después
+  ...
+</code></pre>
+<h2>2. ISA básica</h2>
+<ul>
+<li><strong>MOV A, Lit / MOV B, Lit</strong>: cargar literal. <code>MOV A, (var)</code>: cargar desde memoria (direccionamiento directo).</li>
+<li><strong>MOV (var), A</strong>: guardar en memoria. <code>MOV (B), A</code>: guardar en la dirección que dice B (indirecto).</li>
+<li><strong>ADD/SUB A, B | A, Lit | A, (var)</strong>: operaciones ALU. <code>INC/INC (var)</code>, <code>DEC</code>, <code>NOT A, A</code>, <code>SHL/SHR A, A</code>, <code>AND</code>, <code>XOR</code>, <code>CMP</code>.</li>
+<li><strong>PUSH A / POP B</strong>: stack. <strong>CALL sub / RET</strong>: subrutinas (post-I1 probablemente, revisar clase 04).</li>
+<li><strong>JMP label</strong>: salto incondicional. Etiquetas = dirección de la línea.</li>
+<li>Paréntesis <code>(B)</code> = usar el contenido de B como <strong>dirección de memoria</strong>.</li>
+</ul>
+<h2>3. Saltos condicionales — CMP + flags</h2>
+<p><code>CMP A, B</code> restaura <code>A − B</code> <strong>sin modificar A ni B</strong>, y actualiza las flags Z y N.</p>
+<table>
+<thead>
+<tr>
+<th>Salto</th>
+<th>Condición (flags)</th>
+<th>Equivalente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JEQ</td>
+<td>Z = 1</td>
+<td>a == b</td>
+</tr>
+<tr>
+<td>JNE</td>
+<td>Z = 0</td>
+<td>a != b</td>
+</tr>
+<tr>
+<td>JGT</td>
+<td>Z = 0 y N = 0</td>
+<td>a &gt; b</td>
+</tr>
+<tr>
+<td>JLT</td>
+<td>N = 1</td>
+<td>a &lt; b</td>
+</tr>
+<tr>
+<td>JGE</td>
+<td>N = 0</td>
+<td>a &gt;= b</td>
+</tr>
+<tr>
+<td>JLE</td>
+<td>Z = 1 o N = 1</td>
+<td>a &lt;= b</td>
+</tr>
+<tr>
+<td>JCR / JOV</td>
+<td>C = 1 / O(V) = 1</td>
+<td>por excepción</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>OJO (error clásico)</strong>: el salto usa las flags <strong>de la operación anterior</strong>. Si entre <code>CMP</code> y el salto condicional hay otra instrucción que cambie flags (como <code>JEQ end</code>), el <code>JNE loop</code> evaluará flags equivocadas.</li>
+</ul>
+<h2>4. Registro Status</h2>
+<p>Guarda Z, N, C, O. Los saltos leen de ahí. Se conecta a la Unidad de Control.</p>
+<h2>5. Simulación paso a paso (cómo responder "valores finales")</h2>
+<p>Para "indique los valores de A y B al finalizar":<br />
+1. Haz una <strong>tabla de trazado</strong> por instrucción: <code># | Instr | A | B | mem afectada | flags | PC destino</code>.<br />
+2. Asigna direcciones de memoria a cada instrucción (primera línea de CODE = dirección 0, <code>RET</code>/saltos de 2 celdas si se indica).<br />
+3. Presta atención a: direccionamiento indirecto <code>MOV A,(B)</code> (lee la celda cuya dirección es B), <code>MOV (B), Lit</code>, shifts (bit descartado → flag C), y qué instrucción queda al vuelo tras un <code>RET</code>.<br />
+4. El stack: <code>PUSH</code> decrece SP y guarda; <code>RET</code> carga en PC el tope del stack (¡puede saltar a un valor inesperado si el stack fue modificado!).</p>
+<h2>Ejemplo de error frecuente (I1 2024-1)</h2>
+<blockquote>
+<p>En una subrutina, <code>MOV (B), 14</code> escribió sobre la celda que contenía la <strong>dirección de retorno</strong> del <code>RET</code>. Resultado: el programa no volvió a <code>MOV B, (res)</code> sino a otra instrucción, dejando B con el valor calculado adentro. → Verificar siempre si el código pisa el stack/retorno.</p>
+</blockquote>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Cheatsheet 5 · Microarquitectura (P3, bonus)</h1>
+<h1>Cheatsheet 5 — Microarquitectura / señales de control (P3, bonus)</h1>
+<blockquote>
+<p>Solo si sobra tiempo (es lo más difícil y de menor retorno en 1-2 días).</p>
+</blockquote>
+<h2>1. Idea</h2>
+<p>Cada instrucción = una combinación de <strong>señales de control</strong> que la Unidad de Control activa en un ciclo. Las preguntas típicas piden: <strong>agregar una instrucción</strong> → modificar el diagrama + entregar la <strong>tabla de señales</strong>.</p>
+<h2>2. Señales típicas (diagrama del computador básico)</h2>
+<table>
+<thead>
+<tr>
+<th>Señal</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LA / LB / LPC</td>
+<td>Cargar registro A / B / Program Counter (1 = activo)</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Escribir en memoria de datos</td>
+</tr>
+<tr>
+<td>IncSP / DecSP</td>
+<td>Incrementar / decrementar puntero de stack</td>
+</tr>
+<tr>
+<td>SA (SA0,SA1), SB</td>
+<td>Selección de entrada de los mux A y B (A, B, LIT, ZERO, DOUT...)</td>
+</tr>
+<tr>
+<td>SOP</td>
+<td>Operación ALU (ADD, SUB, AND, XOR, NOT...)</td>
+</tr>
+<tr>
+<td>SAdd</td>
+<td>Selección de dirección de memoria (LIT, B, SP...)</td>
+</tr>
+<tr>
+<td>SDin</td>
+<td>Selección del dato a escribir en memoria</td>
+</tr>
+<tr>
+<td>SPC</td>
+<td>Selección del mux del PC (siguiente, LIT, DOUT...)</td>
+</tr>
+<tr>
+<td>Condición</td>
+<td>En saltos: la carga de PC depende de una flag (ej. <code>Z=1</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Convención de respuestas: en cargas/escrituras poner <code>1</code>/<code>0</code>; en selecciones poner el <strong>nombre</strong> de la entrada (o <code>-</code> si no afecta).</p>
+<h2>3. Patrón para agregar una instrucción</h2>
+<ol>
+<li><strong>Identifica qué señal falta</strong> (ej. cargar un registro nuevo, seleccionar una entrada nueva en un mux).</li>
+<li><strong>Modificación típica</strong>:</li>
+<li>Nuevo registro <code>R</code> → nueva señal de carga <code>LR</code>.</li>
+<li>Nueva entrada a un mux → ampliar selector (ej. <code>SPC</code> de 1 a 2 bits, <code>SB</code> agregando <code>SB2</code>).</li>
+<li>Conectar salida ALU / memoria / SP al mux correspondiente.</li>
+<li><strong>Completa la fila de señales</strong>: para instrucciones simples = 1 ciclo (La/Lb/Lpc = 0, salvo que cargue algo; W = 0 salvo que escriba memoria).</li>
+<li>A veces la instrucción <strong>se puede hacer sin modificar hardware</strong> con 2 ciclos (ej. <code>MOV B,((Dir))</code> = <code>MOV B,(Dir)</code> + <code>MOV B,(B)</code>; o <code>NEG A</code> = <code>NOT</code> + <code>ADD A,1</code>). ¡Indícalo si aplica!</li>
+</ol>
+<h2>4. Ejemplo resuelto (patrón)</h2>
+<p>Instrucción <strong><code>JMP B</code></strong> (I1 2022-1):<br />
+- <strong>Modificación</strong>: conectar salida del registro B a una entrada del Mux PC (o conectar salida de la ALU al Mux PC). Si el mux ya no tiene entradas → ampliar SPC.<br />
+- <strong>Señales</strong>: <code>LA=0 LB=0 LPC=1 W=0 IncSP=0 DecSP=0 SA=ZERO SB=B SOP=ADD SAdd=- SDin=- SPC=B</code>.</p>
+<p>Instrucción <strong><code>DEC B</code></strong> (I1 2022-1), sin modificar hardware, 1 ciclo:<br />
+- Seleccionar B en el mux A, <code>ADD</code> con LIT <code>-1</code>, cargar B: <code>LA=0 LB=1 SA=B SB=LIT SOP=ADD</code>.</p>
+<h2>4b. Ejemplos de la I1 real de 2026-1</h2>
+<ul>
+<li><strong><code>SUB B,B,A</code></strong> (B ← B − A): requiere conectar B al Mux A y A al Mux B (ampliar SA y SB, y la salida de la Control Unit). Señales: <code>LA=0 LB=1 LPC=0 W=0 SA=B SB=A SOP=SUB SAdd=-</code>.</li>
+<li><strong><code>ADD (B),Lit</code></strong> (Mem[B] ← Mem[B] + Lit): conectar la salida de Data Memory (DOUT) al Mux A (ampliar SA). Señales: <code>LA=0 LB=0 LPC=0 W=1 SA=DOUT SB=LIT SOP=ADD SAdd=B</code>.</li>
+<li><strong><code>RESTART</code></strong> (PC ← 0): <strong>sin modificar hardware</strong>; usar <code>LPC=1</code> con literal 0 (<code>SPC=LIT</code>, LIT=0), o agregar señal <code>RPC</code> al reset del PC.</li>
+<li>Observación: si el mux no tiene entradas libres, se amplía su selector (SA/SB/SPC a más bits) y la salida de la Control Unit crece en esa cantidad de bits.</li>
+</ul>
+<h2>5. Errores comunes a evitar</h2>
+<ul>
+<li>Dejar <code>Lpc=1</code> por defecto en instrucciones que no saltan (debe ser 0).</li>
+<li>No activar <code>W</code> cuando se escribe memoria (y al revés).</li>
+<li>Olvidar indicar la condición en saltos condicionales (<code>LPC</code> depende de <code>Z</code>/<code>N</code>, no es 1 fijo).</li>
+<li>Modificar hardware cuando no hace falta (indicar los 2 ciclos con señales existentes).</li>
+</ul>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Hoja de apuntes · guía para copiar a mano</h1>
+<h1>Hoja de Apuntes I1 — guía para copiar a mano (2 caras)</h1>
+<blockquote>
+<p>Copia esto a mano en tu hoja permitida (ambas caras). Priorizado: primero lo que no<br />
+puedes memorizar. Deja espacio en blanco para anotar errores del simulacro.</p>
+</blockquote>
+<hr />
+<h2>CARA 1</h2>
+<h3>1. Tabla de saltos (CMP A,B → a − b)</h3>
+<pre><code>JEQ   Z = 1        a == b
+JNE   Z = 0        a != b
+JGT   Z = 0 y N = 0  a &gt; b
+JLT   N = 1        a &lt; b
+JGE   N = 0        a &gt;= b
+JLE   Z = 1 o N = 1  a &lt;= b
+JCR   C = 1        (carry / bit descartado)
+JOV   V = 1        (overflow)
+</code></pre>
+<h3>2. Compuertas lógicas (salida = 1 cuando…)</h3>
+<pre><code>NOT A      → A = 0
+A AND B    → ambas = 1
+A OR B     → al menos una = 1
+A XOR B    → son distintas
+NAND       → NO(AND): 0 solo si ambas = 1
+NOR        → NO(OR): 1 solo si ambas = 0
+</code></pre>
+<h3>3. Flags de la ALU + overflow</h3>
+<pre><code>Z = resultado es 0
+N = resultado es negativo (MSB)
+C = carry de salida (o bit descartado en shift)
+O/V = overflow (fuera de rango con signo)
+
+Overflow (con signo), 4 casos:
+  A≥0, B≥0 → O=1 si A+B &lt; 0
+  A&lt;0, B&lt;0 → O=1 si A+B ≥ 0
+  A≥0, B&lt;0 → O=1 si A−B &lt; 0
+  A&lt;0, B≥0 → O=1 si A−B ≥ 0
+</code></pre>
+<p>Rangos: n bits sin signo <code>[0, 2^n −1]</code>; con signo C2 <code>[−2^(n−1), +2^(n−1) −1]</code> → 8 bits: −128..127.</p>
+<h3>4. Potencias de 2 (referencia rápida)</h3>
+<pre><code>2^0  1      2^6   64     2^12  4096
+2^1  2      2^7  128     2^13  8192
+2^2  4      2^8  256     2^14 16384
+2^3  8      2^9  512     2^15 32768
+2^4 16     2^10 1024     2^16 65536
+2^5 32     2^11 2048
+</code></pre>
+<hr />
+<h3>5. Recetas de conversión</h3>
+<pre><code>C2        : negar todos los bits + 1
+bin→hex   : agrupar de a 4 bits (desde la derecha)
+bin→oct   : agrupar de a 3 bits
+dec→bin   : divisiones por 2, restos al revés
+base 8→4  : cada dígito oct → 3 bits; agrupar de a 2 bits
+            (agregar 0 a la izquierda si falta); cada par → dígito base 4
+extender bits (8→16): positivo → 0s; negativo → 1s
+</code></pre>
+<h3>6. Minterm / Maxterm (de tabla a circuito)</h3>
+<pre><code>Minterm: fila con 1 → AND de variables (NOT las que valen 0); OR todo
+Maxterm: fila con 0 → OR de variables (NOT las que valen 1); AND todo
+</code></pre>
+<h3>7. Sumador / Restador</h3>
+<pre><code>Half Adder : S = A XOR B ; Cout = A AND B
+Full Adder : S = A XOR B XOR Cin ; Cout = c1 OR c2
+Sumador-Restador: Cin=0 → A+B ; Cin=1 → A−B (negar B + 1)
+</code></pre>
+<hr />
+<h2>CARA 2</h2>
+<h3>8. Contadores con flip-flops D</h3>
+<pre><code>Incrementa (Q' = siguiente estado):
+  Q0' = NOT Q0
+  Q1' = Q0 XOR Q1
+  Q2' = (Q0 AND Q1) XOR Q2
+
+Decrementa:
+  Q0' = NOT Q0
+  Q1' = Q0 XNOR Q1
+
+Con condición A (inc solo si A=1): Q' = (A AND inc) OR (NOT A AND Q)
+  → equivale a un MUX con A como selector.
+</code></pre>
+<h3>9. Almacenamiento</h3>
+<pre><code>Latch RS : S=1→Q=1 ; R=1→Q=0 ; S=R=1→mantiene ; S=R=0→indef.
+Latch D  : D=C=1→1 ; D=0,C=1→0 ; C=0→mantiene
+Flip-Flop D: cambia SOLO en flanco de subida (↑): Q(t+1)=D
+Registro : N flip-flops D (N bits) + carga (L) + reset (R)
+Contador : registro + señal Up/Down (+1 / −1 por flanco)
+
+Endianness (int multibyte en memoria):
+  Big   : byte MSB primero (dir. más baja)
+  Little: byte LSB primero
+  Ej. 0x0FA71D23: little → 23 1D A7 0F
+</code></pre>
+<h3>10. ISA del computador básico</h3>
+<pre><code>Segmentos: DATA (variables) luego CODE (instrucciones)
+
+MOV A, Lit | MOV B, Lit          cargar literal
+MOV A, (var) / MOV (var), A      memoria, direccionamiento DIRECTO
+MOV A, (B)  / MOV (B), A         memoria, dirección en registro B (INDIRECTO)
+ADD/SUB A, B | A, Lit | A, (var) operaciones ALU (resultado en A)
+INC / DEC / NOT A,A / SHL/SHR A,A / AND / XOR / CMP
+PUSH A / POP B                   stack
+CALL sub / RET                   subrutinas
+JMP label                        salto incondicional
+Parentesis (B) = usar contenido de B como dirección
+</code></pre>
+<h3>11. Señales de control (microarquitectura)</h3>
+<pre><code>LA / LB / LPC   : cargar registro A / B / PC (1 activo)
+W               : escribir en memoria de datos
+IncSP / DecSP   : +1 / −1 al puntero de stack
+SA (SA0,SA1)    : selección Mux A (A, B, ZERO, LIT…)
+SB (SB0,SB1,SB2): selección Mux B (B, DOUT, LIT…)
+SOP             : operación ALU (ADD, SUB, AND, XOR, NOT…)
+SAdd            : dirección de memoria (LIT, B, SP, B+offset…)
+SDin            : dato a escribir en memoria
+SPC             : selección Mux PC (next, LIT, DOUT, RA…)
+Condición       : saltos → LPC depende de flag (Z/N), no fijo 1
+
+Instrucciones básicas (referencia):
+  MOV A, Lit : LA=1, SA=ZERO, SB=LIT, SOP=ADD
+  ADD A, B   : LA=1, SA=A, SB=B, SOP=ADD
+  JMP        : LPC=1, SPC=LIT
+  JEQ        : LPC=1 solo si Z=1, SPC=LIT
+</code></pre>
+<h3>12. Mini-ejemplos resueltos (recordatorio)</h3>
+<pre><code>0xCAFE en C2 → 1100 1010 1111 1110b, MSB=1 → neg. → C2 = 0011 0101 0000 0010 = 13570 → −13570
+
+712₈ → 111 001 010 → 01 11 00 10 10 → 13022₄
+
+Trazado de simulación (P3): tabla por instrucción
+  # | Instr | A | B | mem | flags | PC  → valores finales de A y B
+  OJO: saltos usan flags de la operación ANTERIOR
+  OJO: RET carga en PC el tope del stack (revisar si el código lo pisa)
+</code></pre>
+<hr />
+<h2>Tips para copiarla</h2>
+<ul>
+<li>Escribe <strong>pequeño y en columnas</strong> (estilo índice) para que quepa en 2 caras.</li>
+<li>Usa colores/recuadros solo para las <strong>tablas</strong> (saltos, señales, potencias).</li>
+<li>Deja 1/4 de hoja en blanco para errores del simulacro del día 2.</li>
+<li>Practica escribiéndola una vez de memoria: lo que ya sabes, no lo copies.</li>
+</ul>
+</section><section>
+<h1 style="font-size:1.15em;color:#666;">Plan de estudio · 2 días</h1>
+<h1>Plan de estudio — I1 en 2 días (formato exprés)</h1>
+<blockquote>
+<p>Objetivo: maximizar puntos en <strong>P1 (representación)</strong> y <strong>P2 (circuitos)</strong> que son fijas,<br />
+y cubrir la <strong>P3 (computador básico con saltos)</strong>: microarquitectura (señales de control)<br />
++ simulación de assembly. Basado en la I1 real de 2026-1 (el precedente más reciente).</p>
+</blockquote>
+<h2>Recursos</h2>
+<ul>
+<li>Cheatsheets en <code>Estudio-I1/</code> (1 página c/u).</li>
+<li><strong>Ayudantías 2026-2</strong> (formato I1, con pauta): <code>Estudio-I1/Ayudantias/</code> (<code>AY1-Representaciones numéricas.pdf</code>, <code>AY2-Lógica digital.pdf</code> + sus pautas).</li>
+<li><strong>Ayudantías 2026-1</strong> (con pauta, muy alineadas a la I1 real): <code>Estudio-I1/Ayudantias-2026-1/</code> (<code>Ayudantía 1-6</code>).</li>
+<li><strong>Interrogaciones históricas</strong> a usar: <code>Estudio-I1/Interrogaciones/&lt;año&gt;/...</code></li>
+<li><strong>Guías de ejercicios</strong> (relevantes para I1) en <code>Syllabus-2026-2/Material Extra/</code>:</li>
+<li><code>IIC2343_2025_2_Guia_Representacion _de números.pdf</code></li>
+<li><code>IIC2343_2026_1_Guía_de_Lógica_Digital.pdf</code></li>
+<li><code>IIC2343_2026_1_Guía_de_Almacenamiento.pdf</code></li>
+<li><code>IIC2343_2025_2_Guia_Assembly_y_Saltos.pdf</code></li>
+<li>Clase de repaso: <code>Syllabus-2026-2/Clases/S1/IIC2343-S1-Clase-05-V00.pdf</code> (ejercicios de simulación).</li>
+</ul>
+<h2>Formato confirmado por la I1 real de 2026-1</h2>
+<ul>
+<li><strong>3 preguntas</strong>, contestar todas (6 pts c/u).</li>
+<li>P1: representación (overflow, suma hex en C2, <strong>justificar conversiones</strong>).</li>
+<li>P2: circuito combinacional (minterms) + <strong>contador secuencial con flip-flops D</strong>.</li>
+<li>P3: <strong>microarquitectura (señales de control, 3 ítems)</strong> + simulación de 2 programas.</li>
+</ul>
+<hr />
+<h2>DÍA 1 (~6-7 h) — Fundamentos (P1 + P2)</h2>
+<p><strong>Mañana — P1 Representación (~3 h)</strong><br />
+- [ ] Lee <code>cheatsheet-1-representacion.md</code>.<br />
+- [ ] Resuelve la <strong>Ayudantía 1</strong> (<code>Estudio-I1/Ayudantias/AY1-Representaciones numéricas.pdf</code> + <code>AY1-pauta.pdf</code>). Corrige.<br />
+- [ ] Resuelve <strong>I1 2026-1 → Pregunta 1</strong> (<code>Interrogaciones/2026-1/</code>): overflow vidas, <code>0xBABA+0x4542</code> en C2, <strong>justificar hex→bin</strong>. Corrige con la pauta.<br />
+- [ ] Extra si quedan dudas: <strong>I1 2025-2 → P1</strong> o la <strong>Ayudantía 6-2026-1</strong> (representaciones, <code>0xF0CA+0x0F30</code>).</p>
+<p><strong>Tarde — P2 Circuitos (~3 h)</strong><br />
+- [ ] Lee <code>cheatsheet-2-circuitos.md</code> + <code>cheatsheet-3-almacenamiento.md</code>.<br />
+- [ ] Resuelve <strong>I1 2026-1 → Pregunta 2</strong> (circuito combinacional + contador con Boom). Corrige con la pauta.<br />
+- [ ] Resuelve la <strong>Ayudantía 2</strong> (<code>Estudio-I1/Ayudantias/AY2-Lógica digital.pdf</code> + <code>AY2-Pauta.pdf</code>). Corrige.<br />
+- [ ] Resuelve la <strong>Ayudantía 3-2026-1</strong> (flip-flops, latches y contador secuencial). Corrige.<br />
+- [ ] Extra si quedan dudas: <strong>I1 2025-1 → P2</strong> (alarma 3 sensores) o la <strong>Ayudantía 2-2026-1</strong> (Nonogram).</p>
+<p><strong>Noche — Simulación de assembly (~1 h)</strong><br />
+- [ ] Lee <code>cheatsheet-4-assembly-saltos.md</code>.<br />
+- [ ] Haz los <strong>ejercicios de simulación de la Clase 05 (S1)</strong> (programas (1) y (2), valores finales de A y B).</p>
+<hr />
+<h2>DÍA 2 (~6 h) — Simulacro + P3</h2>
+<p><strong>Mañana — Simulacro completo (~2.5 h)</strong><br />
+- [ ] Resuelve <strong>I1 2026-1 completa</strong> (formato real de 3 preguntas) <strong>cronometrada ~2 h</strong>, con desarrollo escrito.<br />
+- [ ] Corrige con la pauta pregunta por pregunta y anota los errores.<br />
+- [ ] Si ya la hiciste: alterna con <strong>I1 2025-1 completa</strong>.</p>
+<p><strong>Tarde — Reforzar P3 (~2.5 h)</strong><br />
+- [ ] Repasa los errores del simulacro con los cheatsheets.<br />
+- [ ] Lee <code>cheatsheet-5-microarquitectura.md</code> (ahora es parte regular de la P3).<br />
+- [ ] Resuelve <strong>I1 2025-2 → Pregunta 3</strong> (SWAP/JGTCMP + fragmentos) y corrige.<br />
+- [ ] Resuelve <strong>I1 2024-1 → Pregunta 4</strong> (MOV B,SP, JMP B, JMP (B)) para practicar el patrón de señales. Corrige.<br />
+- [ ] Extra si quedan dudas: <strong>I1 2024-1 → Pregunta 3</strong> (simulación con errores) o la <strong>Ayudantía 4-2026-1</strong> (computador básico / señales).</p>
+<p><strong>Noche — Repaso final (~1 h)</strong><br />
+- [ ] Relee los cheatsheets 1-5 a alta velocidad.<br />
+- [ ] Repite de memoria: tabla de saltos (JEQ/JNE/JGT/JLT/JGE/JLE + flags), tabla de C2, patrón de contador con FF-D, método de simulación y patrón de señales de control.</p>
+<hr />
+<h2>Orden de preguntas históricas por tema (referencia rápida)</h2>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pruebas a usar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Representación</td>
+<td>AY1 (2026-2), AY6 (2026-1), <strong>2026-1 P1</strong>, 2025-2 P1, 2024-1 P1</td>
+</tr>
+<tr>
+<td>Circuitos combinacionales</td>
+<td>AY2 (2026-1 Nonogram), AY2 (2026-2), <strong>2026-1 P2a</strong>, 2025-1 P2</td>
+</tr>
+<tr>
+<td>Circuitos secuenciales / contadores</td>
+<td>AY3 (2026-1), <strong>2026-1 P2b</strong>, 2025-1 P2b, 2024-2 P2b, 2025-2 P2b</td>
+</tr>
+<tr>
+<td>Almacenamiento / endianness</td>
+<td>2022-1 "La Memoria, Mi Dato" (<code>IIC2343-2022-1-S2-Memoria-Palindromo.pdf</code>), 2023-2 P3, <code>Guía_de_Almacenamiento</code></td>
+</tr>
+<tr>
+<td>Microarquitectura (señales)</td>
+<td><strong>2026-1 P3(a-c)</strong>, AY4 (2026-1), 2024-1 P4, 2022-1-S2 P4 (<code>I12022-1-S2.pdf</code>), 2022-2 P4</td>
+</tr>
+<tr>
+<td>Simulación de assembly</td>
+<td><strong>2026-1 P3d</strong>, 2024-1 P3, 2024-2 P3, 2025-2 P3c, <code>Guia_Assembly_y_Saltos</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Tips finales</h2>
+<ul>
+<li><strong>La pauta exige desarrollo</strong>: nunca respondas solo el resultado final.</li>
+<li>En simulación, una tabla de trazado clara vale puntos parciales aunque el resultado esté mal.</li>
+<li><strong>Microarquitectura vale puntos en P3</strong> (en la I1 2026-1 eran 3 de 4 ítems): domina el patrón (registro nuevo → mux → señal de carga → tabla de señales).</li>
+<li>Si no sabes un ítem, deja el procedimiento escrito (dan puntaje parcial).</li>
+<li>Al corregir con las pautas, <strong>anota el puntaje que "obtendrías" por ítem</strong> (las pautas lo detallan) para priorizar los temas débiles.</li>
+<li><strong>Practica copiar <code>hoja-apuntes.md</code> una vez de memoria</strong> (sin mirar): detecta qué no retienes y refuerza solo eso.</li>
+<li>Duerme bien: P1 y P2 son mecánicas, el cansancio se nota en la P3.</li>
+</ul>
+</section>
+<footer style="margin-top:30px;border-top:1px solid #bbb;padding-top:8px;color:#888;font-size:11px;">
+  Material de estudio personal — no distribuir. Basado en clases S1 (F. Valenzuela) e I1 históricas.
+</footer>
+</body>
+</html>

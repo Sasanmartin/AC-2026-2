@@ -1,0 +1,416 @@
+
+*** Running vivado
+    with args -log Basys3.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source Basys3.tcl
+
+
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+  **** IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source Basys3.tcl -notrace
+Command: synth_design -top Basys3 -part xc7a35tcpg236-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcpg236-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 75777 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1793.066 ; gain = 202.719 ; free physical = 137 ; free virtual = 2196
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'Basys3' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:15]
+INFO: [Synth 8-3491] module 'Reg' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:5' bound to instance 'inst_REG_A' of component 'Reg' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:110]
+INFO: [Synth 8-638] synthesizing module 'Reg' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:12]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD0' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:24]
+INFO: [Synth 8-638] synthesizing module 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:12]
+INFO: [Synth 8-256] done synthesizing module 'FFD' (1#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:12]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD1' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:25]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD2' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:26]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD3' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:27]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD4' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:28]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD5' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:29]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD6' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:30]
+INFO: [Synth 8-3491] module 'FFD' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FFD.vhd:4' bound to instance 'inst_FFD7' of component 'FFD' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:31]
+INFO: [Synth 8-256] done synthesizing module 'Reg' (2#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:12]
+INFO: [Synth 8-3491] module 'Reg' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Reg.vhd:5' bound to instance 'inst_REG_B' of component 'Reg' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:117]
+INFO: [Synth 8-3491] module 'ALU' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/ALU.vhd:10' bound to instance 'inst_ALU' of component 'ALU' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:124]
+INFO: [Synth 8-638] synthesizing module 'ALU' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/ALU.vhd:22]
+INFO: [Synth 8-3491] module 'Adder8' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:5' bound to instance 'inst_Adder8' of component 'Adder8' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/ALU.vhd:59]
+INFO: [Synth 8-638] synthesizing module 'Adder8' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:13]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA0' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:27]
+INFO: [Synth 8-638] synthesizing module 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:12]
+INFO: [Synth 8-3491] module 'HA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/HA.vhd:5' bound to instance 'inst_HA' of component 'HA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:29]
+INFO: [Synth 8-638] synthesizing module 'HA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/HA.vhd:12]
+INFO: [Synth 8-256] done synthesizing module 'HA' (3#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/HA.vhd:12]
+INFO: [Synth 8-3491] module 'HA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/HA.vhd:5' bound to instance 'inst_HA2' of component 'HA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:36]
+INFO: [Synth 8-256] done synthesizing module 'FA' (4#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:12]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA1' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:35]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA2' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:43]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA3' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:51]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA4' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:59]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA5' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:67]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA6' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:75]
+INFO: [Synth 8-3491] module 'FA' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/FA.vhd:4' bound to instance 'inst_FA7' of component 'FA' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:83]
+INFO: [Synth 8-256] done synthesizing module 'Adder8' (5#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/Componentes/Adder8.vhd:13]
+INFO: [Synth 8-256] done synthesizing module 'ALU' (6#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/ALU.vhd:22]
+INFO: [Synth 8-3491] module 'Display_Controller' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Display_Controller.vhd:7' bound to instance 'inst_Display_Controller' of component 'Display_Controller' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:137]
+INFO: [Synth 8-638] synthesizing module 'Display_Controller' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Display_Controller.vhd:19]
+INFO: [Synth 8-256] done synthesizing module 'Display_Controller' (7#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Display_Controller.vhd:19]
+INFO: [Synth 8-3491] module 'Debouncer' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:6' bound to instance 'inst_Debouncer0' of component 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:148]
+INFO: [Synth 8-638] synthesizing module 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:12]
+INFO: [Synth 8-256] done synthesizing module 'Debouncer' (8#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:12]
+INFO: [Synth 8-3491] module 'Debouncer' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:6' bound to instance 'inst_Debouncer1' of component 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:149]
+INFO: [Synth 8-3491] module 'Debouncer' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:6' bound to instance 'inst_Debouncer2' of component 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:150]
+INFO: [Synth 8-3491] module 'Debouncer' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:6' bound to instance 'inst_Debouncer3' of component 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:151]
+INFO: [Synth 8-3491] module 'Debouncer' declared at '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Debouncer.vhd:6' bound to instance 'inst_Debouncer4' of component 'Debouncer' [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:152]
+INFO: [Synth 8-256] done synthesizing module 'Basys3' (9#1) [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/sources_1/new/Basys3.vhd:15]
+WARNING: [Synth 8-3917] design Basys3 has port led[12] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[11] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[10] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[9] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[8] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[7] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[5] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[3] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[2] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[1] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[0] driven by constant 0
+WARNING: [Synth 8-3331] design Reg has unconnected port load
+WARNING: [Synth 8-3331] design Basys3 has unconnected port sw[11]
+WARNING: [Synth 8-3331] design Basys3 has unconnected port sw[10]
+WARNING: [Synth 8-3331] design Basys3 has unconnected port sw[9]
+WARNING: [Synth 8-3331] design Basys3 has unconnected port sw[8]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:07 . Memory (MB): peak = 1855.816 ; gain = 265.469 ; free physical = 226 ; free virtual = 2260
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:08 . Memory (MB): peak = 1855.816 ; gain = 265.469 ; free physical = 224 ; free virtual = 2258
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:08 . Memory (MB): peak = 1855.816 ; gain = 265.469 ; free physical = 224 ; free virtual = 2258
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 1855.816 ; gain = 0.000 ; free physical = 220 ; free virtual = 2255
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/constrs_1/new/Basys3.xdc]
+Finished Parsing XDC File [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/constrs_1/new/Basys3.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.srcs/constrs_1/new/Basys3.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Basys3_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Basys3_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2019.598 ; gain = 0.000 ; free physical = 138 ; free virtual = 2173
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2019.598 ; gain = 0.000 ; free physical = 138 ; free virtual = 2173
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:16 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 172 ; free virtual = 2175
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcpg236-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:16 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 172 ; free virtual = 2175
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:17 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 172 ; free virtual = 2175
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:17 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 176 ; free virtual = 2180
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 1     
++---XORs : 
+	   2 Input      8 Bit         XORs := 1     
+	   2 Input      1 Bit         XORs := 21    
++---Registers : 
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 21    
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 3     
+	   4 Input      4 Bit        Muxes := 2     
+	   2 Input      4 Bit        Muxes := 4     
+	   8 Input      1 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module Basys3 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 4     
+Module FFD 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
+Module HA 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 1     
+Module ALU 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      8 Bit         XORs := 1     
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 2     
+	   8 Input      1 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 3     
+Module Display_Controller 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      2 Bit       Adders := 1     
++---Registers : 
+	                2 Bit    Registers := 1     
++---Muxes : 
+	   4 Input      4 Bit        Muxes := 2     
+Module Debouncer 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 1     
++---Registers : 
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+WARNING: [Synth 8-3917] design Basys3 has port led[12] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[11] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[10] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[9] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[8] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[7] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[5] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[3] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[2] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[1] driven by constant 0
+WARNING: [Synth 8-3917] design Basys3 has port led[0] driven by constant 0
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:19 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 179 ; free virtual = 2188
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:18 ; elapsed = 00:00:28 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 155 ; free virtual = 2119
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:18 ; elapsed = 00:00:28 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 152 ; free virtual = 2116
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:18 ; elapsed = 00:00:28 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 151 ; free virtual = 2114
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2113
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2113
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2113
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2114
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2115
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2115
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    13|
+|3     |LUT1   |     3|
+|4     |LUT2   |     7|
+|5     |LUT3   |    14|
+|6     |LUT4   |    19|
+|7     |LUT5   |    20|
+|8     |LUT6   |    40|
+|9     |FDRE   |    69|
+|10    |IBUF   |    16|
+|11    |OBUF   |    28|
++------+-------+------+
+
+Report Instance Areas: 
++------+--------------------------+-------------------+------+
+|      |Instance                  |Module             |Cells |
++------+--------------------------+-------------------+------+
+|1     |top                       |                   |   230|
+|2     |  inst_Debouncer2         |Debouncer          |    28|
+|3     |  inst_Debouncer3         |Debouncer_0        |    28|
+|4     |  inst_Display_Controller |Display_Controller |    50|
+|5     |  inst_REG_A              |Reg                |    23|
+|6     |    inst_FFD0             |FFD_9              |     3|
+|7     |    inst_FFD1             |FFD_10             |     5|
+|8     |    inst_FFD2             |FFD_11             |     3|
+|9     |    inst_FFD3             |FFD_12             |     4|
+|10    |    inst_FFD4             |FFD_13             |     2|
+|11    |    inst_FFD5             |FFD_14             |     2|
+|12    |    inst_FFD6             |FFD_15             |     3|
+|13    |    inst_FFD7             |FFD_16             |     1|
+|14    |  inst_REG_B              |Reg_1              |    56|
+|15    |    inst_FFD0             |FFD                |    11|
+|16    |    inst_FFD1             |FFD_2              |     3|
+|17    |    inst_FFD2             |FFD_3              |     6|
+|18    |    inst_FFD3             |FFD_4              |     8|
+|19    |    inst_FFD4             |FFD_5              |     7|
+|20    |    inst_FFD5             |FFD_6              |     6|
+|21    |    inst_FFD6             |FFD_7              |     7|
+|22    |    inst_FFD7             |FFD_8              |     8|
++------+--------------------------+-------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:21 ; elapsed = 00:00:30 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 150 ; free virtual = 2115
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 13 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:19 ; elapsed = 00:00:28 . Memory (MB): peak = 2019.598 ; gain = 265.469 ; free physical = 199 ; free virtual = 2162
+Synthesis Optimization Complete : Time (s): cpu = 00:00:21 ; elapsed = 00:00:31 . Memory (MB): peak = 2019.598 ; gain = 429.250 ; free physical = 199 ; free virtual = 2162
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2019.598 ; gain = 0.000 ; free physical = 254 ; free virtual = 2221
+INFO: [Netlist 29-17] Analyzing 13 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2019.598 ; gain = 0.000 ; free physical = 214 ; free virtual = 2182
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+58 Infos, 31 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:28 ; elapsed = 00:00:48 . Memory (MB): peak = 2019.598 ; gain = 586.660 ; free physical = 336 ; free virtual = 2304
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2019.598 ; gain = 0.000 ; free physical = 337 ; free virtual = 2304
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint '/home/sasanmartin/projects/AC/Laboratorios/L2/SoluciónAC2/ProyectoBaseAc2/Proyecto Base.runs/synth_1/Basys3.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file Basys3_utilization_synth.rpt -pb Basys3_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Sep  1 13:52:18 2026...

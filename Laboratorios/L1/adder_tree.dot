@@ -1,0 +1,15 @@
+digraph adder_tree {
+    rankdir=TB;
+    graph [fontname="Helvetica", bgcolor="white", nodesep=0.3, ranksep=0.5];
+    node  [fontname="Helvetica", shape=box, style="rounded,filled", fontsize=12];
+    edge  [fontname="Helvetica", fontsize=10, color="#666666", arrowsize=0.7];
+
+    basys [label="Basys3.vhd\n(board top level)", fillcolor="#d6eaf8"];
+    adder [label="ADDER4.vhd\n4-bit ripple-carry adder\n(4 × FA)", fillcolor="#b9dcb9"];
+    fa [label="FA.vhd\nFull-Adder\n(2 × HA)", fillcolor="#f7e7c8"];
+    ha [label="HA.vhd\nHalf-Adder\ns=a⊕b  c=a·b", fillcolor="#ffe0e0"];
+
+    basys -> adder [label=" instantiates"];
+    adder -> fa [label=" instantiates ×4"];
+    fa -> ha [label=" instantiates ×2"];
+}

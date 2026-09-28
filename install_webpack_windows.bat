@@ -1,0 +1,1 @@
+"%~dp0Xilinx_Vivado_2019.2_1106_2127\bin\xsetup" --agree XilinxEULA,3rdPartyEULA,WebTalkTerms --batch Install --config "%~dp0install_config.txt"

@@ -1,0 +1,30 @@
+digraph adder_blocks {
+    rankdir=LR;
+    graph [fontname="Helvetica", bgcolor="white", nodesep=0.35, ranksep=0.6];
+    node  [fontname="Helvetica", shape=box, style="rounded,filled", fontsize=12];
+    edge  [fontname="Helvetica", fontsize=9, color="#666666", arrowsize=0.7];
+
+    swA [label="sw(3:0)\n= A (4 bits)", fillcolor="#d6eaf8", shape=component];
+    swB [label="sw(7:4)\n= B (4 bits)", fillcolor="#d6eaf8", shape=component];
+    swCi [label="sw(8)\n= Cin", fillcolor="#d6eaf8", shape=component];
+
+    fa0 [label="FA₀", fillcolor="#f7e7c8"];
+    fa1 [label="FA₁", fillcolor="#f7e7c8"];
+    fa2 [label="FA₂", fillcolor="#f7e7c8"];
+    fa3 [label="FA₃", fillcolor="#f7e7c8"];
+
+    ledS [label="led(3:0)\n= S", fillcolor="#d5f5e3", shape=component];
+    ledC [label="led(4)\n= Cout", fillcolor="#d5f5e3", shape=component];
+
+    swA -> fa0 [label="A"];
+    swB -> fa0 [label="B"];
+    swCi -> fa0 [label="Cin"];
+    fa0 -> fa1 [label=" c₀"];
+    fa1 -> fa2 [label=" c₁"];
+    fa2 -> fa3 [label=" c₂"];
+    fa0 -> ledS [label="S₀"];
+    fa1 -> ledS [label="S₁"];
+    fa2 -> ledS [label="S₂"];
+    fa3 -> ledS [label="S₃"];
+    fa3 -> ledC [label="Cout"];
+}

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IIC2343 ACF3 - VERSION ACE (DocPrep)</title>
+<style>
+ body { background:#1e1e1e; color:#d4d4d4; font-family:-apple-system,Segoe UI,Roboto,sans-serif; margin:0; padding:16px; }
+ h1 { font-size:18px; } h2 { font-size:15px; color:#9cdcfe; margin-top:28px; border-bottom:1px solid #444; padding-bottom:4px; }
+ .legend { font-size:12px; color:#aaa; margin:8px 0 16px; }
+ .legend .a { background:#5a3a00; color:#ffd479; padding:1px 6px; border-radius:3px; }
+ pre { background:#252526; border:1px solid #333; border-radius:6px; padding:12px; overflow-x:auto;
+        font-family:Consolas,"Courier New",monospace; font-size:12.5px; line-height:1.5; white-space:pre; }
+ .kw { color:#569cd6; } .str { color:#ce9178; } .num { color:#b5cea8; } .com { color:#6a9955; }
+ .ace { display:inline-block; width:100%; background:#5a3a00; color:#ffd479; }
+</style></head><body>
+<h1>IIC2343 &ndash; ACF3 &ndash; VERSION ACE (DocPrep, con saltos)</h1>
+<div class="legend"><span class="a">encabezados DocPrep</span> resaltados &nbsp;|&nbsp; esta es la version con Status + loadPC</div>
+<h2>CU.vhd</h2><pre><span class="ace">-- ===========================================================================</span>
+<span class="ace">-- IIC2343 - Actividad Formativa 3 - Unidad de Control</span>
+<span class="ace">-- VERSION ACE / DocPrep (con saltos)</span>
+<span class="ace">-- ===========================================================================</span>
+<span class="ace">-- Reparticion de la palabra de control segun el DocPrep:</span>
+<span class="ace">--   bits 2:0   operacion de la ALU (sel_op)</span>
+<span class="ace">--   bits 5:3   cargas:  3=load_a  4=load_b  5=ram_write</span>
+<span class="ace">--   bits 11:6  seleccion de muxes (&quot;un bit por entrada&quot;):</span>
+<span class="ace">--                6 = Mux A Reg A | 7 = Mux A Uno | 8 = Mux A Cero</span>
+<span class="ace">--                9 = Mux B Reg B | 10 = Mux B Literal | 11 = Mux B RAM</span>
+<span class="ace">--   bits 19:12 bits de salto:</span>
+<span class="ace">--                12=JMP 13=JEQ 14=JNE 15=JLT 16=JLE 17=JGT 18=JGE 19=reserva</span>
+<span class="ace">--</span>
+<span class="ace">-- La CU debe TRADUCIR los bits de mux (uno por entrada) a un selector de 2 bits,</span>
+<span class="ace">-- y producir load_pc a partir del tipo de salto y las flags guardadas.</span>
+<span class="ace">-- ===========================================================================</span>
+
+<span class="kw">library</span> IEEE;
+<span class="kw">use</span> IEEE.STD_LOGIC_1164.<span class="kw">ALL</span>;
+
+<span class="kw">entity</span> CU <span class="kw">is</span>
+    <span class="kw">Port</span> (
+            op_code     : <span class="kw">in</span>   <span class="kw">std_logic_vector</span> (<span class="num">19</span> <span class="kw">downto</span> <span class="num">0</span>);
+            c_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;                  <span class="com">-- flag C guardada</span>
+            z_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;                  <span class="com">-- flag Z guardada</span>
+            n_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;                  <span class="com">-- flag N guardada</span>
+            sel_a       : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+            sel_b       : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+            load_a      : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+            load_b      : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+            ram_write   : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+            sel_op      : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">2</span> <span class="kw">downto</span> <span class="num">0</span>);
+            load_pc     : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+            load_status : <span class="kw">out</span>  <span class="kw">std_logic</span>
+          );
+<span class="kw">end</span> CU;
+
+<span class="kw">architecture</span> Behavioral <span class="kw">of</span> CU <span class="kw">is</span>
+
+<span class="kw">begin</span>
+
+    <span class="com">-- Familia &quot;operacion de la ALU&quot;: viaja directa (bits 2:0)</span>
+    sel_op    &lt;= op_code(<span class="num">2</span> <span class="kw">downto</span> <span class="num">0</span>);
+
+    <span class="com">-- Familia &quot;cargas&quot;: un bit cada una (bits 3,4,5)</span>
+    load_a    &lt;= op_code(<span class="num">3</span>);
+    load_b    &lt;= op_code(<span class="num">4</span>);
+    ram_write &lt;= op_code(<span class="num">5</span>);
+
+    <span class="com">-- Mux A: bits 6,7,8 -&gt; selector de 2 bits</span>
+    sel_a &lt;= <span class="str">&quot;00&quot;</span> <span class="kw">when</span> op_code(<span class="num">6</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>   <span class="com">-- Reg A</span>
+             <span class="str">&quot;01&quot;</span> <span class="kw">when</span> op_code(<span class="num">7</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>   <span class="com">-- Uno</span>
+             <span class="str">&quot;10&quot;</span> <span class="kw">when</span> op_code(<span class="num">8</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>   <span class="com">-- Cero</span>
+             <span class="str">&quot;10&quot;</span>;                             <span class="com">-- sin bit activo: arbitrario (Cero)</span>
+
+    <span class="com">-- Mux B: bits 9,10,11 -&gt; selector de 2 bits</span>
+    sel_b &lt;= <span class="str">&quot;00&quot;</span> <span class="kw">when</span> op_code(<span class="num">9</span>)  = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>  <span class="com">-- Reg B</span>
+             <span class="str">&quot;01&quot;</span> <span class="kw">when</span> op_code(<span class="num">10</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>  <span class="com">-- Literal</span>
+             <span class="str">&quot;10&quot;</span> <span class="kw">when</span> op_code(<span class="num">11</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">else</span>  <span class="com">-- RAM</span>
+             <span class="str">&quot;00&quot;</span>;                             <span class="com">-- sin bit activo: arbitrario (Reg B)</span>
+
+    <span class="com">-- Familia &quot;saltos&quot;: bits 12..19 condicionados por las flags guardadas</span>
+    load_pc &lt;= &#x27;<span class="num">1</span>&#x27; <span class="kw">when</span> (op_code(<span class="num">12</span>) = &#x27;<span class="num">1</span>&#x27;)                                <span class="com">-- JMP</span>
+                    <span class="kw">or</span> (op_code(<span class="num">13</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> z_in = &#x27;<span class="num">1</span>&#x27;)                  <span class="com">-- JEQ</span>
+                    <span class="kw">or</span> (op_code(<span class="num">14</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> z_in = &#x27;<span class="num">0</span>&#x27;)                  <span class="com">-- JNE</span>
+                    <span class="kw">or</span> (op_code(<span class="num">15</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> n_in = &#x27;<span class="num">1</span>&#x27;)                  <span class="com">-- JLT</span>
+                    <span class="kw">or</span> (op_code(<span class="num">16</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> (z_in = &#x27;<span class="num">1</span>&#x27; <span class="kw">or</span> n_in = &#x27;<span class="num">1</span>&#x27;))  <span class="com">-- JLE</span>
+                    <span class="kw">or</span> (op_code(<span class="num">17</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> z_in = &#x27;<span class="num">0</span>&#x27; <span class="kw">and</span> n_in = &#x27;<span class="num">0</span>&#x27;)   <span class="com">-- JGT</span>
+                    <span class="kw">or</span> (op_code(<span class="num">18</span>) = &#x27;<span class="num">1</span>&#x27; <span class="kw">and</span> n_in = &#x27;<span class="num">0</span>&#x27;)                  <span class="com">-- JGE</span>
+               <span class="kw">else</span> &#x27;<span class="num">0</span>&#x27;;
+
+    <span class="com">-- El Status se carga en las instrucciones que NO son salto</span>
+    load_status &lt;= &#x27;<span class="num">1</span>&#x27; <span class="kw">when</span> op_code(<span class="num">19</span> <span class="kw">downto</span> <span class="num">12</span>) = <span class="str">&quot;00000000&quot;</span> <span class="kw">else</span> &#x27;<span class="num">0</span>&#x27;;
+
+<span class="kw">end</span> Behavioral;
+</pre>
+<h2>CPU.vhd</h2><pre><span class="ace">-- ===========================================================================</span>
+<span class="ace">-- IIC2343 - Actividad Formativa 3 - CPU (VERSION ACE / DocPrep, con saltos)</span>
+<span class="ace">-- ===========================================================================</span>
+<span class="ace">-- Esta es la version &quot;con saltos&quot; descrita en el DocPrep (ACE):</span>
+<span class="ace">--   * la unidad de control traduce &quot;un bit por entrada&quot; a selectores de 2 bits,</span>
+<span class="ace">--   * existe un registro Status (flags C, Z, N),</span>
+<span class="ace">--   * el PC puede saltar (loadPC) ademas de avanzar.</span>
+<span class="ace">--</span>
+<span class="ace">-- OJO: esta version NO es la que usan los programas de prueba de la ACF.</span>
+<span class="ace">-- El ensamblador de la actividad usa la codificacion de la Tabla 1 (sin saltos),</span>
+<span class="ace">-- implementada en la version ACF (archivo del proyecto). Esta version es para</span>
+<span class="ace">-- estudiarla / practicarla con el DocPrep.</span>
+<span class="ace">--</span>
+<span class="ace">-- Entidades usadas (Reg, ALU, CU): no se modifican salvo que la CU de esta</span>
+<span class="ace">-- variante necesita puertos extra (c_in/z_in/n_in, load_pc, load_status),</span>
+<span class="ace">-- por lo que aqui la declaracion del componente CU SI los incluye.</span>
+<span class="ace">-- ===========================================================================</span>
+
+<span class="kw">library</span> IEEE;
+<span class="kw">use</span> IEEE.STD_LOGIC_1164.<span class="kw">ALL</span>;
+<span class="kw">use</span> IEEE.std_logic_unsigned.<span class="kw">all</span>;
+<span class="kw">use</span> IEEE.numeric_std.<span class="kw">all</span>;
+
+
+<span class="kw">entity</span> CPU <span class="kw">is</span>
+    <span class="kw">Port</span> (
+           clock : <span class="kw">in</span> <span class="kw">STD_LOGIC</span>;
+           clear : <span class="kw">in</span> <span class="kw">STD_LOGIC</span>;
+           ram_address : <span class="kw">out</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">11</span> <span class="kw">downto</span> <span class="num">0</span>);
+           ram_datain : <span class="kw">out</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+           ram_dataout : <span class="kw">in</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+           ram_write : <span class="kw">out</span> <span class="kw">STD_LOGIC</span>;
+           rom_address : <span class="kw">out</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">11</span> <span class="kw">downto</span> <span class="num">0</span>);
+           rom_dataout : <span class="kw">in</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">35</span> <span class="kw">downto</span> <span class="num">0</span>);
+           dis : <span class="kw">out</span> <span class="kw">STD_LOGIC_VECTOR</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>));
+<span class="kw">end</span> CPU;
+
+<span class="kw">architecture</span> Behavioral <span class="kw">of</span> CPU <span class="kw">is</span>
+
+<span class="kw">component</span> Reg <span class="com">-- No Tocar</span>
+    <span class="kw">Port</span> (
+        clock       : <span class="kw">in</span>    <span class="kw">std_logic</span>;
+        clear       : <span class="kw">in</span>    <span class="kw">std_logic</span>;
+        load        : <span class="kw">in</span>    <span class="kw">std_logic</span>;
+        up          : <span class="kw">in</span>    <span class="kw">std_logic</span>;
+        down        : <span class="kw">in</span>    <span class="kw">std_logic</span>;
+        datain      : <span class="kw">in</span>    <span class="kw">std_logic_vector</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+        dataout     : <span class="kw">out</span>   <span class="kw">std_logic_vector</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>)
+          );
+    <span class="kw">end</span> <span class="kw">component</span>;
+
+<span class="kw">component</span> ALU <span class="com">-- No Tocar</span>
+    <span class="kw">Port</span> (
+        a           : <span class="kw">in</span>    <span class="kw">std_logic_vector</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+        b           : <span class="kw">in</span>    <span class="kw">std_logic_vector</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+        sop         : <span class="kw">in</span>    <span class="kw">std_logic_vector</span> (<span class="num">2</span> <span class="kw">downto</span> <span class="num">0</span>);
+        c           : <span class="kw">out</span>   <span class="kw">std_logic</span>;
+        z           : <span class="kw">out</span>   <span class="kw">std_logic</span>;
+        n           : <span class="kw">out</span>   <span class="kw">std_logic</span>;
+        result      : <span class="kw">out</span>   <span class="kw">std_logic_vector</span> (<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>)
+          );
+    <span class="kw">end</span> <span class="kw">component</span>;
+
+<span class="kw">component</span> CU <span class="com">-- (esta variante SI necesita los puertos extra)</span>
+    <span class="kw">Port</span> (
+        op_code     : <span class="kw">in</span>   <span class="kw">std_logic_vector</span> (<span class="num">19</span> <span class="kw">downto</span> <span class="num">0</span>);
+        c_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;
+        z_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;
+        n_in        : <span class="kw">in</span>   <span class="kw">std_logic</span>;
+        sel_a       : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+        sel_b       : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+        load_a      : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+        load_b      : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+        ram_write   : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+        sel_op      : <span class="kw">out</span>  <span class="kw">std_logic_vector</span> (<span class="num">2</span> <span class="kw">downto</span> <span class="num">0</span>);
+        load_pc     : <span class="kw">out</span>  <span class="kw">std_logic</span>;
+        load_status : <span class="kw">out</span>  <span class="kw">std_logic</span>
+          );
+    <span class="kw">end</span> <span class="kw">component</span>;
+
+<span class="kw">signal</span> pc_out       : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> reg_a_out    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> reg_b_out    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> status_out   : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> status_in    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+
+<span class="kw">signal</span> alu_result   : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> mux_a_out    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> mux_b_out    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+
+<span class="kw">signal</span> lit_field    : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> dir          : <span class="kw">std_logic_vector</span>(<span class="num">11</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> jump_target  : <span class="kw">std_logic_vector</span>(<span class="num">15</span> <span class="kw">downto</span> <span class="num">0</span>);
+
+<span class="kw">signal</span> sel_a        : <span class="kw">std_logic_vector</span>(<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> sel_b        : <span class="kw">std_logic_vector</span>(<span class="num">1</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> sel_op       : <span class="kw">std_logic_vector</span>(<span class="num">2</span> <span class="kw">downto</span> <span class="num">0</span>);
+<span class="kw">signal</span> load_a       : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> load_b       : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> w_ram        : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> load_pc      : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> load_status  : <span class="kw">std_logic</span>;
+
+<span class="kw">signal</span> c_flag       : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> z_flag       : <span class="kw">std_logic</span>;
+<span class="kw">signal</span> n_flag       : <span class="kw">std_logic</span>;
+
+<span class="kw">begin</span>
+
+    lit_field   &lt;= rom_dataout(<span class="num">35</span> <span class="kw">downto</span> <span class="num">20</span>);   <span class="com">-- campo literal</span>
+    dir         &lt;= rom_dataout(<span class="num">31</span> <span class="kw">downto</span> <span class="num">20</span>);   <span class="com">-- direccion (12 bits)</span>
+    jump_target &lt;= <span class="str">&quot;0000&quot;</span> &amp; dir;                <span class="com">-- destino de salto</span>
+
+    <span class="com">-- Program Counter: salta (load) o avanza (up)</span>
+    inst_PC: Reg <span class="kw">port</span> <span class="kw">map</span>(
+        clock   =&gt; clock,
+        clear   =&gt; clear,
+        load    =&gt; load_pc,
+        up      =&gt; <span class="kw">not</span> load_pc,
+        down    =&gt; &#x27;<span class="num">0</span>&#x27;,
+        datain  =&gt; jump_target,
+        dataout =&gt; pc_out
+        );
+
+    <span class="com">-- Registro A</span>
+    inst_A: Reg <span class="kw">port</span> <span class="kw">map</span>(
+        clock   =&gt; clock,
+        clear   =&gt; clear,
+        load    =&gt; load_a,
+        up      =&gt; &#x27;<span class="num">0</span>&#x27;,
+        down    =&gt; &#x27;<span class="num">0</span>&#x27;,
+        datain  =&gt; alu_result,
+        dataout =&gt; reg_a_out
+        );
+
+    <span class="com">-- Registro B</span>
+    inst_B: Reg <span class="kw">port</span> <span class="kw">map</span>(
+        clock   =&gt; clock,
+        clear   =&gt; clear,
+        load    =&gt; load_b,
+        up      =&gt; &#x27;<span class="num">0</span>&#x27;,
+        down    =&gt; &#x27;<span class="num">0</span>&#x27;,
+        datain  =&gt; alu_result,
+        dataout =&gt; reg_b_out
+        );
+
+    <span class="com">-- Registro Status: bit0 = C, bit1 = Z, bit2 = N</span>
+    status_in &lt;= <span class="str">&quot;0000000000000&quot;</span> &amp; n_flag &amp; z_flag &amp; c_flag;
+    inst_Status: Reg <span class="kw">port</span> <span class="kw">map</span>(
+        clock   =&gt; clock,
+        clear   =&gt; clear,
+        load    =&gt; load_status,
+        up      =&gt; &#x27;<span class="num">0</span>&#x27;,
+        down    =&gt; &#x27;<span class="num">0</span>&#x27;,
+        datain  =&gt; status_in,
+        dataout =&gt; status_out
+        );
+
+    <span class="com">-- Mux A: 00 Reg A | 01 Uno | 10 Cero</span>
+    <span class="kw">with</span> sel_a <span class="kw">select</span>
+        mux_a_out &lt;= reg_a_out          <span class="kw">when</span> <span class="str">&quot;00&quot;</span>,
+                     <span class="str">&quot;0000000000000001&quot;</span> <span class="kw">when</span> <span class="str">&quot;01&quot;</span>,
+                     <span class="str">&quot;0000000000000000&quot;</span> <span class="kw">when</span> <span class="str">&quot;10&quot;</span>,
+                     <span class="str">&quot;0000000000000000&quot;</span> <span class="kw">when</span> <span class="kw">others</span>;
+
+    <span class="com">-- Mux B: 00 Reg B | 01 Literal | 10 RAM | 11 Cero</span>
+    <span class="kw">with</span> sel_b <span class="kw">select</span>
+        mux_b_out &lt;= reg_b_out   <span class="kw">when</span> <span class="str">&quot;00&quot;</span>,
+                     lit_field   <span class="kw">when</span> <span class="str">&quot;01&quot;</span>,
+                     ram_dataout <span class="kw">when</span> <span class="str">&quot;10&quot;</span>,
+                     <span class="str">&quot;0000000000000000&quot;</span> <span class="kw">when</span> <span class="kw">others</span>;
+
+    <span class="com">-- ALU</span>
+    inst_ALU: ALU <span class="kw">port</span> <span class="kw">map</span>(
+        a      =&gt; mux_a_out,
+        b      =&gt; mux_b_out,
+        sop    =&gt; sel_op,
+        c      =&gt; c_flag,
+        z      =&gt; z_flag,
+        n      =&gt; n_flag,
+        result =&gt; alu_result
+        );
+
+    <span class="com">-- Unidad de Control (variante ACE)</span>
+    inst_CU: CU <span class="kw">port</span> <span class="kw">map</span>(
+        op_code     =&gt; rom_dataout(<span class="num">19</span> <span class="kw">downto</span> <span class="num">0</span>),
+        c_in        =&gt; status_out(<span class="num">0</span>),
+        z_in        =&gt; status_out(<span class="num">1</span>),
+        n_in        =&gt; status_out(<span class="num">2</span>),
+        sel_a       =&gt; sel_a,
+        sel_b       =&gt; sel_b,
+        load_a      =&gt; load_a,
+        load_b      =&gt; load_b,
+        ram_write   =&gt; w_ram,
+        sel_op      =&gt; sel_op,
+        load_pc     =&gt; load_pc,
+        load_status =&gt; load_status
+        );
+
+    rom_address      &lt;= pc_out(<span class="num">11</span> <span class="kw">downto</span> <span class="num">0</span>);
+    ram_address      &lt;= dir;
+    ram_datain       &lt;= alu_result;
+    ram_write        &lt;= w_ram;
+    dis(<span class="num">15</span> <span class="kw">downto</span> <span class="num">8</span>) &lt;= reg_a_out(<span class="num">7</span> <span class="kw">downto</span> <span class="num">0</span>);
+    dis(<span class="num">7</span> <span class="kw">downto</span> <span class="num">0</span>)  &lt;= reg_b_out(<span class="num">7</span> <span class="kw">downto</span> <span class="num">0</span>);
+
+<span class="kw">end</span> Behavioral;
+</pre>
+</body></html>

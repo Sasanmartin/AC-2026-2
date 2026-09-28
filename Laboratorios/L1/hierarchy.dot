@@ -1,0 +1,56 @@
+digraph adder_hierarchy {
+    rankdir=TB;
+    graph [fontname="Helvetica", bgcolor="white", ranksep=0.45, nodesep=0.3];
+    node  [fontname="Helvetica", shape=box, style="rounded,filled", fontsize=12];
+    edge  [fontname="Helvetica", fontsize=10, color="#666666", arrowsize=0.7];
+
+    subgraph cluster_board {
+        label="Basys3.vhd  —  FPGA board top level";
+        style="filled,rounded"; color="#e8e8f0"; fillcolor="#f4f4fa";
+        fontname="Helvetica-Bold"; fontsize=14;
+
+        subgraph cluster_adder {
+            label="ADDER4.vhd  —  4-bit ripple-carry adder";
+            style="filled,rounded"; color="#b9dcb9"; fillcolor="#eef7ee";
+            fontname="Helvetica-Bold"; fontsize=12;
+
+            node [style="rounded,filled"];
+            a [label="A (4 bits)\nsw(3:0)", fillcolor="#d6eaf8"];
+            b [label="B (4 bits)\nsw(7:4)", fillcolor="#d6eaf8"];
+            ci [label="Cin\nsw(8)", fillcolor="#d6eaf8"];
+            s [label="S (4 bits)\nled(3:0)", fillcolor="#d5f5e3"];
+            co [label="Cout\nled(4)", fillcolor="#d5f5e3"];
+
+            fa0 [label="FA₀\nbit 0", fillcolor="#f7e7c8"];
+            fa1 [label="FA₁\nbit 1", fillcolor="#f7e7c8"];
+            fa2 [label="FA₂\nbit 2", fillcolor="#f7e7c8"];
+            fa3 [label="FA₃\nbit 3", fillcolor="#f7e7c8"];
+
+            a -> fa0; b -> fa0; ci -> fa0;
+            fa0 -> fa1 [label="  c₀", fontsize=9];
+            fa1 -> fa2 [label="  c₁", fontsize=9];
+            fa2 -> fa3 [label="  c₂", fontsize=9];
+            fa0 -> s [style=invis]; fa1 -> s; fa2 -> s; fa3 -> s;
+            fa3 -> co;
+
+            subgraph cluster_fa_detail {
+                label="FA.vhd  —  one Full-Adder (expand = 2 × HA)";
+                style="filled,rounded"; color="#f0d9b5"; fillcolor="#fdf6e9";
+                fontname="Helvetica-Bold"; fontsize=12;
+
+                ha1 [label="HA₁\ns = a⊕b   c = a·b", fillcolor="#ffe0e0"];
+                ha2 [label="HA₂\ns = a⊕b   c = a·b", fillcolor="#ffe0e0"];
+                faout [label="FA ports\n(a, b, ci → s, c)", fillcolor="#f7e7c8"];
+
+                ha1 -> ha2 [label="  s_parcial", fontsize=9];
+                ha2 -> faout [style=invis];
+                ha1 -> faout [label="  c_parcial1", fontsize=9];
+                ha2 -> faout [label="  c_parcial2", fontsize=9];
+                faout -> ha2 [label="  ci", fontsize=9];
+            }
+        }
+    }
+
+    {rank=same; a; b; ci; s; co;}
+    {rank=same; fa0; fa1; fa2; fa3;}
+}
