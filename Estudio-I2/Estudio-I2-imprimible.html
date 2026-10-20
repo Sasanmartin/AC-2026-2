@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudio I2 — Arquitectura de Computadores (2026-2)</title>
+<style>
+:root { --accent: #1a5276; --light: #eaf2f8; --border: #999; }
+* { box-sizing: border-box; }
+html { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #fff; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+       color: #222; max-width: 900px; margin: 0 auto; padding: 24px;
+       line-height: 1.42; font-size: 14px; }
+h1 { color: var(--accent); font-size: 1.6em; border-bottom: 3px solid var(--accent);
+     padding-bottom: 6px; margin: 0 0 12px; }
+h2 { color: var(--accent); font-size: 1.25em; margin-top: 26px;
+     border-bottom: 1px solid #bbb; padding-bottom: 3px; break-after: avoid; }
+h3 { font-size: 1.08em; margin-top: 18px; break-after: avoid; }
+p { margin: 7px 0; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 12.5px; }
+th, td { border: 1px solid var(--border); padding: 4px 7px; text-align: left;
+         vertical-align: top; }
+th { background: var(--light); }
+td { background: #fff; }
+tr:nth-child(even) td { background: #fafafa; }
+tr { break-inside: avoid; }
+code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: 0.9em;
+       font-family: Consolas, Menlo, monospace; }
+pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto;
+      border: 1px solid #ddd; break-inside: avoid; }
+pre code { background: none; padding: 0; font-size: 0.88em; }
+blockquote { border-left: 4px solid var(--accent); margin: 8px 0;
+             padding: 4px 12px; background: var(--light); }
+ul, ol { margin: 6px 0; padding-left: 24px; }
+li { margin: 2px 0; }
+hr { border: none; border-top: 2px dashed #bbb; margin: 18px 0; }
+a { color: #1a5276; }
+.section-title { font-size: 1.05em; color: #666; border: none; margin: 0 0 8px;
+                 padding: 0; text-transform: uppercase; letter-spacing: .04em; }
+section { margin-bottom: 10px; }
+section.page-break { break-before: page; margin-top: 28px; }
+header { text-align: center; border-bottom: 3px solid var(--accent);
+         padding-bottom: 10px; margin-bottom: 16px; }
+header h1 { border: none; font-size: 1.8em; margin-bottom: 4px; }
+header p { color: #555; margin: 4px 0; }
+footer { margin-top: 30px; border-top: 1px solid #bbb; padding-top: 8px;
+         color: #888; font-size: 11px; }
+.check { font-family: "Segoe UI Symbol", sans-serif; }
+@media print {
+  body { max-width: 100%; padding: 0; font-size: 10.5px; line-height: 1.3; }
+  header { margin-bottom: 8px; }
+  header h1 { font-size: 1.5em; }
+  section.page-break { break-before: page; margin-top: 0; }
+  h1 { font-size: 1.3em; }
+  h2 { font-size: 1.1em; margin-top: 14px; }
+  h3 { font-size: 1em; margin-top: 10px; }
+  table { font-size: 9.5px; }
+  th, td { padding: 2px 4px; }
+  pre { font-size: 9px; padding: 6px; }
+  a { color: #000; text-decoration: none; }
+  @page { margin: 12mm; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Estudio I2 — Arquitectura de Computadores 2026-2</h1>
+  <p>Subrutinas · Floats · I/O · RISC-V</p>
+  <p>Generado desde <code>Estudio-I2/</code> · imprime o guarda como PDF (Ctrl+P)</p>
+</header>
+<section class="">
+<h1 class="section-title">Índice</h1>
+<h1>Estudio I2 — Arquitectura de Computadores (2026-2)</h1>
+<p>Material de estudio para la <strong>Interrogación 2</strong> del jueves <strong>22 de octubre de 2026, 17:30</strong>. Basado en la <strong>Clase 16 — Repaso I2</strong> (S1, Felipe Valenzuela), las clases S2 de subrutinas, floats, RISC-V e I/O, las guías 2026-1 y las I2 históricas.</p>
+<h2>Los 4 temas que entran</h2>
+<table>
+<thead><tr>
+<th>Tema</th>
+<th>Cheatsheet</th>
+<th>Pregunta típica</th>
+</tr></thead><tbody>
+<tr><td>Subrutinas en el computador básico</td><td><code>cheatsheet-1-subrutinas.md</code></td><td>Modificar hardware + tabla de señales + simular código</td></tr>
+<tr><td>Floats IEEE754</td><td><code>cheatsheet-2-floats.md</code></td><td>Interpretar hex, sumar/multiplicar, pérdida de precisión</td></tr>
+<tr><td>I/O</td><td><code>cheatsheet-3-io.md</code></td><td>Memory/port mapped, polling/interrupciones/DMA, describir código</td></tr>
+<tr><td>RISC-V</td><td><code>cheatsheet-4-riscv.md</code></td><td>ISA, convención de llamada y lectura/escritura de código</td></tr>
+</tbody></table>
+<blockquote><p><strong>Formato más probable (I2 2026-1):</strong> 3 preguntas de 6 pts. <strong>P1</strong> subrutinas, <strong>P2</strong> floats, <strong>P3</strong> I/O con 3 pts de código RISC-V. Es decir, los 4 temas se evalúan en 3 preguntas.</p></blockquote>
+<h2>Contenido de la carpeta</h2>
+<ul><li><code>cheatsheet-*.md</code> — resumen compacto por tema (tablas y patrones).</li><li><code>hoja-apuntes.md</code> — versión ultra-condensada para copiar a mano (2 caras).</li><li><code>plan-de-estudio.md</code> — plan martes 20 / miércoles 21 / jueves 22, con checklist.</li><li><code>tareas-vision.md</code> — prompts para extraer los diagramas de los PDFs con un modelo de visión.</li><li><code>Estudio-I2-imprimible.html</code> — cheatsheets, hoja y plan en un solo archivo (Ctrl+P → PDF).</li><li><code>Clases/</code> — copia de la Clase 16 (repaso) y las clases 5, 7, 8 y 9.</li><li><code>Ayudantias/</code> — AY7 (Subrutinas), AY8 (Floats), AY9/AY10 (RISC-V), AY11 (I/O), con pauta.</li><li><code>Interrogaciones/</code> — I2 2024-1 a 2026-1 completas + I2 antiguas seleccionadas.</li><li><code>Temas/</code> — ejercicios agrupados por tema, con <code>README.md</code> y <code>tema-compilado.pdf</code>.</li><li><code>_render_imprimible.py</code> — regenera el HTML imprimible.</li><li><code>_merge_temas.py</code> — regenera los PDFs compilados de <code>Temas/</code>.</li></ul>
+<h2>Cómo usarlo en 2 días</h2>
+<ol><li>Lee <code>plan-de-estudio.md</code>.</li><li>Para cada tema: lee el cheatsheet → resuelve la ayudantía → corrige con la pauta → resuelve la I2 histórica asignada.</li><li>El miércoles haz <strong>P1 S1 + P2 S1 de la I2 2026-1</strong> cronometradas (2 h) y corrige con las pautas.</li><li>Copia <code>hoja-apuntes.md</code> a mano una vez <strong>sin mirar</strong>; lo que no te salga es lo que debes repasar.</li><li>El jueves en la mañana solo repasa cheatsheets, hoja y errores. No aprendas cosas nuevas.</li></ol>
+<h2>Recursos principales</h2>
+<ul><li><strong>Clase 16 — Repaso I2:</strong> <code>Clases/Clase-16-Repaso-I2.pdf</code> (38 p.; cubre los 4 temas).</li><li><strong>Subrutinas:</strong> <code>Clases/Clase-05-Saltos-y-Subrutinas.pdf</code>.</li><li><strong>Floats:</strong> <code>Clases/Clase-07-Floats.pdf</code>.</li><li><strong>RISC-V:</strong> <code>Clases/Clase-08-RISC-V.pdf</code>.</li><li><strong>I/O:</strong> <code>Clases/Clase-09-IO.pdf</code>.</li><li><strong>Guías:</strong> <code>Syllabus-2026-2/Material Extra/</code> (Subrutinas, Floats, IO_RISCV, RISCV, RISCV_II).</li><li><strong>Ayudantías 2026-1:</strong> AY7–AY11 en <code>Ayudantias/</code>.</li><li><strong>I2 históricas:</strong> <code>Interrogaciones/</code>.</li></ul>
+<h2>Prioridad si el tiempo apremia</h2>
+<ol><li><strong>P1 Subrutinas</strong> (6 pts): hardware + señales + simulación. Es la más mecánica y la que más se repite.</li><li><strong>P2 Floats</strong> (6 pts): formato, suma, multiplicación y pérdida de precisión.</li><li><strong>P3 I/O</strong> (3 pts conceptuales): memory/port mapped, polling, interrupciones, DMA.</li><li><strong>P3 RISC-V</strong> (3 pts): leer el código de I/O y describirlo por estados/comandos.</li></ol>
+<blockquote><p>En <code>Interrogaciones/anteriores/</code> hay pruebas con temas que <strong>no</strong> entran este semestre (caché, memoria virtual, ILP, coherencia, arquitecturas RISC/CISC). Están incluidas por pedido, pero el plan solo usa las preguntas de los 4 temas. Revisa <code>Interrogaciones/README.md</code>.</p></blockquote>
+<h2>Nota sobre el HTML</h2>
+<p><code>_render_imprimible.py</code> es autocontenido: no requiere <code>pip install markdown</code>. Genera el HTML desde los <code>.md</code> y usa la misma hoja de estilo de <code>Estudio-I1</code>.</p>
+</section><section class="page-break">
+<h1 class="section-title">Cheatsheet 1 · Subrutinas (P1)</h1>
+<h1>Cheatsheet 1 — Subrutinas en el computador básico (P1)</h1>
+<blockquote><p><strong>Lo que se pregunta:</strong> implementar 1–3 instrucciones nuevas (hardware + tabla de señales), y simular 2 fragmentos de código con <code>CALL</code>, <code>RET</code>, <code>PUSH</code>, <code>POP</code> y stack.</p></blockquote>
+<h2>1. Idea y requisitos</h2>
+<p>Una subrutina necesita:</p>
+<ol><li><strong>Parámetros de entrada</strong> → en este curso se guardan en <strong>memoria/stack</strong> (los registros A y B no alcanzan).</li><li><strong>Valor de retorno</strong> → también en memoria/stack.</li><li><strong>Llamada y retorno</strong> → hay que guardar la <strong>dirección de retorno</strong> (<code>PC+1</code>) para poder volver.</li></ol>
+<p>El stack permite llamadas anidadas y recursión sin que las variables choquen.</p>
+<h2>2. Layout de memoria y stack</h2>
+<pre><code class="language-text">Direcciones bajas
+┌─────────────────────────────┐
+│ DATA / variables            │
+├─────────────────────────────┤
+│ ...                         │
+│ stack (crece hacia abajo)   │
+│ SP+1 = tope del stack       │
+│ SP   = próximo espacio libre│
+└─────────────────────────────┘
+Dirección 255 = primera celda del stack</code></pre>
+<ul><li><code>SP</code> parte en <strong>255</strong>.</li><li><code>PUSH</code>: <code>Mem[SP] ← valor; SP ← SP−1</code>.</li><li><code>POP</code>: <code>SP ← SP+1; valor ← Mem[SP]</code>.</li><li><code>CALL</code>: <code>Mem[SP] ← PC+1; SP ← SP−1; PC ← label</code>.</li><li><code>RET</code>: <code>SP ← SP+1; PC ← Mem[SP]</code>.</li><li>Por eso <code>SP</code> apunta al <strong>siguiente espacio libre</strong>, y el tope real es <code>SP+1</code>.</li><li>Si el stack crece demasiado y choca con las variables → <strong>stack overflow</strong>.</li></ul>
+<h2>3. Modificaciones de hardware típicas</h2>
+<table>
+<thead><tr>
+<th>Componente</th>
+<th>Para qué sirve</th>
+</tr></thead><tbody>
+<tr><td><strong>Mux DataIn</strong> (<code>SDIn</code>)</td><td>Elegir qué se escribe en memoria: resultado de la ALU o <code>PC+1</code> (para <code>CALL</code>).</td></tr>
+<tr><td><strong>Mux PC</strong> (<code>SPC</code>)</td><td>Elegir qué se carga en PC: literal/label (<code>LIT</code>) o dato de memoria (<code>DOUT</code>, para <code>RET</code>).</td></tr>
+<tr><td><strong>Mux Address</strong> (<code>SAdd</code>)</td><td>Elegir la dirección de memoria: <code>LIT</code>, <code>B</code>, <code>SP</code> o <code>ADDER</code>. Necesita 2 bits si hay 3–4 entradas.</td></tr>
+<tr><td><strong>Mux Adder</strong> (<code>SAdder</code>)</td><td>Elegir la entrada del Adder: <code>PC</code> o <code>SP</code>. Permite calcular <code>PC+1</code> o <code>SP+1</code>.</td></tr>
+<tr><td><strong>SP + <code>IncSP</code> / <code>DecSP</code></strong></td><td>Incrementar/decrementar el stack pointer.</td></tr>
+<tr><td><strong>Registro RA</strong> (opcional, 2024-2)</td><td>Guardar la dirección de retorno en un registro (<code>LRA</code>, <code>SRA</code>) en vez del stack.</td></tr>
+</tbody></table>
+<h3>El truco del <code>SP+1</code></h3>
+<p><code>SP</code> apunta al próximo espacio libre, pero el tope del stack es <code>SP+1</code>. Para leer o escribir el tope <strong>sin mover SP</strong> se usa:</p>
+<ul><li><code>SAdder = SP</code> → el Adder calcula <code>SP+1</code>.</li><li><code>SAdd = ADDER</code> → se usa <code>SP+1</code> como dirección de memoria.</li></ul>
+<p>Esto es lo que permite <code>RET1</code>, <code>PUSHRW</code>, <code>POPRD</code> y <code>POP1</code> en <strong>un solo ciclo</strong>.</p>
+<h2>4. Semántica y señales de las instrucciones</h2>
+<p>Convención: en cargas/escrituras <code>1</code> = activo, <code>0</code> = inactivo; en selecciones, el <strong>nombre</strong> de la entrada (<code>LIT</code>, <code>SP</code>, <code>DOUT</code>, <code>ALU</code>, <code>ADDER</code>, <code>ZERO</code>, <code>B</code>, etc.) o <code>-</code> si no importa.</p>
+<table>
+<thead><tr>
+<th>Instrucción</th>
+<th>Operación</th>
+<th>Ciclos</th>
+<th>Señales principales</th>
+</tr></thead><tbody>
+<tr><td><code>CALL label</code></td><td><code>Mem[SP] ← PC+1; SP−−; PC ← label</code></td><td>1</td><td><code>W=1, DecSP=1, SAdd=SP, SDIn=PC+1, SPC=LIT, LPC=1, SAdder=PC</code></td></tr>
+<tr><td><code>RET</code></td><td><code>SP++; PC ← Mem[SP]</code></td><td>2</td><td>Ciclo 1: <code>IncSP=1</code> · Ciclo 2: <code>SAdd=SP, SPC=DOUT, LPC=1</code></td></tr>
+<tr><td><code>PUSH A</code></td><td><code>Mem[SP] ← A; SP−−</code></td><td>1</td><td><code>W=1, DecSP=1, SAdd=SP, SDIn=ALU, SA=A, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>PUSH B</code></td><td><code>Mem[SP] ← B; SP−−</code></td><td>1</td><td>igual, con <code>SB=B</code> (o <code>SA=B</code>) según el mux</td></tr>
+<tr><td><code>POP A</code></td><td><code>SP++; A ← Mem[SP]</code></td><td>2</td><td>Ciclo 1: <code>IncSP=1</code> · Ciclo 2: <code>SAdd=SP, LA=1, SA=ZERO, SB=DOUT, SOP=ADD</code></td></tr>
+<tr><td><code>POP B</code></td><td><code>SP++; B ← Mem[SP]</code></td><td>2</td><td>igual, con <code>LB=1</code></td></tr>
+<tr><td><code>RET1</code></td><td><code>PC ← Mem[SP+1]; SP++</code> en 1 ciclo</td><td>1</td><td><code>LPC=1, IncSP=1, SAdd=ADDER, SAdder=SP, SPC=DOUT</code></td></tr>
+<tr><td><code>PUSHRW A</code></td><td><code>Mem[SP+1] ← A</code> sin mover SP</td><td>1</td><td><code>W=1, SAdd=ADDER, SAdder=SP, SDIn=ALU, SA=A, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>POPRD A</code></td><td><code>A ← Mem[SP+1]</code> sin mover SP</td><td>1</td><td><code>LA=1, SAdd=ADDER, SAdder=SP, SA=ZERO, SB=DOUT, SOP=ADD</code></td></tr>
+<tr><td><code>POP1 A</code></td><td><code>SP++; A ← Mem[SP]</code> en 1 ciclo</td><td>1</td><td><code>LA=1, IncSP=1, SAdd=ADDER, SAdder=SP, SA=ZERO, SB=DOUT, SOP=ADD</code></td></tr>
+<tr><td><code>MOV A,SP</code></td><td><code>A ← SP</code></td><td>1</td><td><code>LA=1, SA=SP, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>CMP B,SP</code></td><td><code>B − SP</code>, solo flags</td><td>1</td><td><code>SA=B, SB=SP, SOP=SUB</code> (todos los loads en 0)</td></tr>
+</tbody></table>
+<blockquote><p><strong>Ojo:</strong> los nombres exactos de las entradas de los mux dependen del diagrama que entregue el enunciado. La pauta acepta la combinación coherente; lo importante es que la operación se ejecute en <strong>un ciclo</strong> y que la tabla sea completa.</p></blockquote>
+<h2>5. Patrón para implementar una instrucción nueva</h2>
+<ol><li><strong>¿Qué falta?</strong> ¿Un dato que no llega a la ALU? ¿Una dirección que el Mux Address no puede elegir? ¿Un registro nuevo? ¿Un valor que hay que escribir en memoria?</li><li><strong>Modificación mínima:</strong></li><li>Nuevo registro <code>R</code> → señal <code>LR</code>.</li><li>Nueva entrada a un mux → agregar entrada y ampliar el selector (<code>SA</code>, <code>SB</code>, <code>SPC</code>, <code>SAdd</code>).</li><li>Nuevo dato a memoria → conectar al <code>Mux DataIn</code> y usar <code>SDIn</code>.</li><li>Necesitas <code>SP+1</code> → usar <code>Mux Adder</code> + <code>SAdder=SP</code>.</li><li><strong>Completa la fila:</strong> <code>LA, LB, LPC, IncSP, DecSP, W, SA, SB, SOP, SAdd, SDIn, SPC, SAdder</code>.</li><li><strong>¿Se puede sin hardware?</strong> Si sí, dilo explícitamente y usa las señales existentes. Si no, indica <strong>una sola</strong> modificación que habilite todas las instrucciones del enunciado.</li><li><strong>Verifica los ciclos:</strong> el enunciado suele exigir <strong>1 ciclo</strong>. Si tu solución necesita 2, probablemente haya que agregar el Mux Adder o conectar una salida a un mux.</li></ol>
+<h3>Ejemplo de razonamiento: <code>RET1</code> en 1 ciclo</h3>
+<p><code>RET</code> normal necesita 2 ciclos porque primero hay que hacer <code>SP++</code> y después leer <code>Mem[SP]</code>. Para hacerlo en 1 ciclo:</p>
+<ul><li>El Adder calcula <code>SP+1</code> (con <code>SAdder=SP</code>).</li><li>El Mux Address elige <code>ADDER</code> (<code>SAdd=ADDER</code>).</li><li>El Mux PC elige <code>DOUT</code> (<code>SPC=DOUT</code>).</li><li><code>IncSP=1</code> actualiza SP al mismo tiempo.</li></ul>
+<p>Así se lee <code>Mem[SP+1]</code> y se carga en PC en el mismo ciclo. <strong>Esa es la idea que más se repite.</strong></p>
+<h2>6. Método de simulación (para “indique A y B al final”)</h2>
+<ol><li>Copia las <strong>direcciones</strong> que da el enunciado. No inventes direcciones.</li><li>Haz una tabla por instrucción:</li></ol>
+<p><code># | Instr | A | B | Mem afectada | SP | PC | flags</code></p>
+<ol><li>Respeta el tamaño de cada instrucción en el listado:</li></ol>
+<table>
+<thead><tr>
+<th>Instrucción</th>
+<th>Celdas típicas</th>
+</tr></thead><tbody>
+<tr><td><code>MOV</code>, <code>ADD</code>, <code>SUB</code>, <code>CMP</code>, <code>JMP</code>, saltos condicionales</td><td>1</td></tr>
+<tr><td><code>CALL</code>, <code>PUSH</code></td><td>1</td></tr>
+<tr><td><code>POP</code>, <code>RET</code></td><td>2</td></tr>
+</tbody></table>
+<blockquote><p>Usa siempre las direcciones del enunciado; la tabla anterior es solo una referencia.</p></blockquote>
+<ol><li><code>CALL</code> guarda <strong>PC+1</strong> (la dirección de la instrucción siguiente). Si <code>CALL</code> está en <code>0x04</code>, guarda <code>0x05</code>, no <code>0x04</code>.</li><li><code>RET</code> hace <code>SP++</code> y salta a <code>Mem[SP]</code>. Si alguien sobrescribió esa celda, salta a otra parte.</li><li>Las flags las actualiza la <strong>última</strong> operación que las modifique. Un <code>CMP</code> seguido de otra instrucción que cambie flags puede arruinar el salto condicional.</li><li><code>MOV (B),A</code> escribe en <code>Mem[B]</code>. Si <code>B</code> apunta al stack, puedes pisar la dirección de retorno.</li><li><code>JMP (B)</code> salta a <code>Mem[B]</code>; <code>JMP B</code> salta a <code>B</code> (si la instrucción existe).</li><li>Al final, revisa <strong>A, B, SP y la memoria relevante</strong>; el enunciado suele pedir solo A y B, pero el desarrollo debe justificar cómo llegaste.</li></ol>
+<h2>7. Ejemplo resuelto — pisar la dirección de retorno (I2 2026-1)</h2>
+<pre><code class="language-asm">MOV A,2
+MOV B,5
+PUSH A          ; Mem[255]=2, SP=254
+PUSH B          ; Mem[254]=5, SP=253
+CALL mystery    ; Mem[253]=0x05, SP=252
+POP B           ; no se ejecuta
+POP A           ; no se ejecuta
+JMP end
+mystery:
+MOV A,0
+NOT A,A         ; A=255
+SUB A,2         ; A=253
+MOV B,A         ; B=253
+MOV A,(B)       ; A=Mem[253]=0x05=5
+ADD A,4         ; A=9
+MOV (B),A       ; Mem[253]=9
+RET             ; SP=253, PC=Mem[253]=9 → JMP end
+end:</code></pre>
+<p>Resultado: <strong>A = 9, B = 253</strong>. La subrutina no vuelve a <code>POP B</code>, sino que salta a <code>JMP end</code> porque sobrescribió su propia dirección de retorno. Este patrón aparece mucho.</p>
+<h2>8. Errores que más castigan</h2>
+<ul><li>Poner <code>LPC=1</code> por defecto en instrucciones que no saltan.</li><li>Olvidar <code>W=1</code> cuando se escribe memoria.</li><li>Confundir <code>PUSH</code> (escribe y luego decrementa) con <code>POP</code> (incrementa y luego lee).</li><li>Decir que <code>RET</code> es de 1 ciclo sin agregar el Mux Adder.</li><li>No conectar <code>SP</code> al Mux A o al Mux B y aun así usar <code>MOV A,SP</code> o <code>CMP B,SP</code>.</li><li>No indicar la condición en saltos condicionales (<code>LPC</code> depende de <code>Z/N</code>, no es 1 fijo).</li><li>Olvidar que <code>CALL</code> guarda <code>PC+1</code>, no <code>PC</code>.</li><li>No revisar si el código pisa el stack con <code>MOV (B),A</code> o <code>PUSH</code>.</li><li>En la simulación, saltarse instrucciones que no se ejecutan: <strong>marca explícitamente “no se ejecuta”</strong>.</li></ul>
+</section><section class="page-break">
+<h1 class="section-title">Cheatsheet 2 · Floats IEEE754 (P2)</h1>
+<h1>Cheatsheet 2 — Floats IEEE754 (P2)</h1>
+<blockquote><p><strong>Lo que se pregunta:</strong> interpretar números en hex, sumar/multiplicar, indicar el resultado en binario normalizado y decidir si se pierde precisión al guardarlo como <code>float</code>. También caen preguntas cortas de teoría (bits de precisión, exponentes, punto fijo vs flotante).</p></blockquote>
+<h2>1. Punto fijo vs punto flotante</h2>
+<table>
+<thead><tr>
+<th>Representación</th>
+<th>Ventaja</th>
+<th>Desventaja</th>
+</tr></thead><tbody>
+<tr><td><strong>Punto fijo</strong></td><td>Simple, rápido, predecible.</td><td>Rango muy pequeño; poca precisión relativa.</td></tr>
+<tr><td><strong>Punto flotante</strong></td><td>Rango mucho más amplio (exponente).</td><td>Menos precisión; errores de redondeo.</td></tr>
+</tbody></table>
+<p>En punto fijo los bits se reparten en signo, parte entera y parte fraccionaria <strong>fija</strong>. En punto flotante se representa como <code>significante × base^exponente</code>, así que el punto “flota”.</p>
+<h2>2. Formato IEEE754 de 32 bits (<code>float</code>)</h2>
+<pre><code class="language-text"> 1 bit      8 bits              23 bits
+┌──────┬────────────────┬──────────────────────────┐
+│  S   │  E (sesgo 127) │  M (significando)        │
+└──────┴────────────────┴──────────────────────────┘
+  31      30 ... 23         22 ... 0</code></pre>
+<ul><li><strong>Signo <code>S</code>:</strong> 0 = positivo, 1 = negativo.</li><li><strong>Exponente <code>E</code>:</strong> 8 bits, <strong>sesgado en 127</strong>. Exponente real <code>e = E − 127</code>.</li><li><strong>Significando <code>M</code>:</strong> 23 bits, pero se asume un <strong>1 implícito</strong> a la izquierda: <code>1.M</code>.</li><li><strong>Precisión total: 24 bits</strong> (23 explícitos + 1 implícito).</li><li>Valor: <code>X = (−1)^S × 1.M × 2^(E−127)</code>.</li></ul>
+<h3>Rango y casos especiales</h3>
+<table>
+<thead><tr>
+<th>Exponente <code>E</code></th>
+<th>Significando <code>M</code></th>
+<th>Significado</th>
+</tr></thead><tbody>
+<tr><td><code>00000000</code></td><td><code>000...0</code></td><td><code>±0</code> (<code>+0 = 0x00000000</code>, <code>−0 = 0x80000000</code>)</td></tr>
+<tr><td><code>00000000</code></td><td><code>≠ 0</code></td><td>Número <strong>subnormal</strong> (no normalizado)</td></tr>
+<tr><td><code>00000001</code> a <code>11111110</code></td><td>cualquiera</td><td>Número normal, <code>e ∈ [−126, 127]</code></td></tr>
+<tr><td><code>11111111</code></td><td><code>000...0</code></td><td><code>±∞</code> (<code>+∞ = 0x7F800000</code>, <code>−∞ = 0xFF800000</code>)</td></tr>
+<tr><td><code>11111111</code></td><td><code>≠ 0</code></td><td><strong>NaN</strong> (Not a Number)</td></tr>
+</tbody></table>
+<ul><li>Exponentes distintos representables: <strong>254</strong> (<code>256 − 2</code> reservados: <code>0</code> y <code>255</code>).</li><li>Precisión: <strong>24 bits</strong>.</li><li><code>double</code> (64 bits): 1 signo + 11 exponente (sesgo 1023) + 52 significando → <strong>53 bits</strong> de precisión.</li><li><code>εmach</code> de <code>float</code> ≈ <code>2^-23</code>; de <code>double</code> ≈ <code>2^-52</code>.</li></ul>
+<h2>3. Conversión decimal → float</h2>
+<ol><li>Pasa la parte entera y fraccionaria a binario.</li><li>Normaliza: <code>1.xxxx × 2^e</code>.</li><li>Calcula <code>E = e + 127</code> en binario (8 bits).</li><li>Escribe <code>S | E | M</code> (M son los bits después del punto, sin el 1 implícito).</li><li>Agrupa de a 4 bits para obtener el hex.</li></ol>
+<p><strong>Ejemplo:</strong> <code>0.15625</code></p>
+<ul><li><code>0.15625 = 0.00101₂ = 1.01₂ × 2^-3</code>.</li><li><code>e = −3</code> → <code>E = 124 = 01111100₂</code>.</li><li><code>S = 0</code>, <code>M = 010000...</code>.</li><li>Resultado: <code>0 01111100 01000000000000000000000</code> = <strong><code>0x3E200000</code></strong>.</li></ul>
+<p><strong>Ejemplo:</strong> <code>−1.6875</code></p>
+<ul><li><code>1.6875 = 1.1011₂</code>.</li><li><code>e = 0</code> → <code>E = 127 = 01111111₂</code>.</li><li><code>S = 1</code>, <code>M = 101100...</code>.</li><li>Resultado: <code>1 01111111 10110000000000000000000</code> = <strong><code>0xBFD80000</code></strong>.</li></ul>
+<h2>4. Conversión float → decimal</h2>
+<ol><li>Pasa el hex a binario (4 bits por dígito).</li><li>Separa <code>S | E | M</code>.</li><li>Calcula <code>e = E − 127</code>.</li><li>Escribe <code>1.M × 2^e</code> y pasa a decimal.</li><li>Si <code>E = 255</code>, revisa si es <code>±∞</code> o <code>NaN</code>; si <code>E = 0</code>, revisa cero/subnormal.</li></ol>
+<p><strong>Ejemplo:</strong> <code>0xBF800000</code></p>
+<ul><li><code>1 01111111 00000000000000000000000</code>.</li><li><code>S=1</code>, <code>E=127 → e=0</code>, <code>M=0 → 1.0</code>.</li><li>Valor: <code>−(1.0 × 2^0) = −1</code>.</li></ul>
+<h2>5. Suma de floats</h2>
+<p>Algoritmo:</p>
+<ol><li><strong>Comparar exponentes.</strong> Si son distintos, toma el de menor exponente y hazle <strong>shift right</strong> al significando, aumentando su exponente de a 1 hasta igualar al mayor.</li><li><strong>Sumar los significandos</strong> (manteniendo el exponente).</li><li><strong>Normalizar:</strong> si queda <code>1x.xxx</code>, shift right y <code>e+1</code>; si queda <code>0.xxx</code>, shift left y <code>e−1</code>.</li><li><strong>Redondear</strong> a 23 bits (o 24 con el implícito). Si al redondear se desnormaliza, repetir.</li><li><strong>Verificar</strong> el resultado en decimal.</li></ol>
+<p><strong>Ejemplo:</strong> <code>A = 1.11₂ × 2^3 = 14</code>, <code>C = 1.11₂ × 2^1 = 3.5</code></p>
+<pre><code class="language-text">C = 1.11 × 2^1
+  = 0.111 × 2^2
+  = 0.0111 × 2^3        (shift right 2 veces)
+
+A + C = 1.11 × 2^3 + 0.0111 × 2^3
+      = 10.0011 × 2^3
+      = 1.00011 × 2^4    (normalizo: shift right, e+1)
+      = 10001.1₂ = 17.5</code></pre>
+<blockquote><p>Si los dos números tienen el mismo exponente, sáltate el paso 1.</p></blockquote>
+<h2>6. Multiplicación de floats</h2>
+<p>Algoritmo:</p>
+<ol><li><strong>Sumar exponentes.</strong> Si están sesgados: <code>E_resultado = E_A + E_B − 127</code>. Si no están sesgados: <code>e_resultado = e_A + e_B</code>.</li><li><strong>Multiplicar significandos</strong> (ignora el punto; luego ubícalo contando posiciones).</li><li><strong>Normalizar</strong> el producto (shift right/left y ajustar exponente).</li><li><strong>Redondear</strong> a 23 bits.</li><li><strong>Signo:</strong> <code>S_resultado = S_A XOR S_B</code>.</li></ol>
+<p><strong>Ejemplo:</strong> <code>A = 1.11₂ × 2^3 = 14</code>, <code>B = 1.1₂ × 2^3 = 12</code></p>
+<pre><code class="language-text">Exponente: 3 + 3 = 6
+Significandos:
+      1.110
+   ×  1.100
+   ---------
+     10.101  (producto binario)
+
+Normalizo: 1.0101 × 2^7  →  10101000₂ = 168</code></pre>
+<p><strong>Con sesgo:</strong> <code>E_A = 3+127 = 130</code>, <code>E_B = 130</code> → <code>E_resultado = 130+130−127 = 133</code> → <code>e = 133−127 = 6</code>. Correcto.</p>
+<h2>7. Pérdida de precisión</h2>
+<ul><li>Un <code>float</code> solo guarda <strong>24 bits</strong> de significando. Si el resultado exacto necesita más, se pierden los bits menos significativos.</li><li><strong>¿Se pierde precisión?</strong> Compara el resultado exacto con el que queda almacenado. Si son distintos → sí. Indica <strong>cuántos bits</strong> se pierden y su peso (ej. <code>2^-5 = 0.03125</code>).</li><li><strong>¿Es exactamente representable?</strong> Un número lo es si puede escribirse como <code>m × 2^e</code> con <code>m</code> entero de a lo más 24 bits (en el rango normal).</li><li><code>2^70</code> → sí (potencia de 2).</li><li><code>2^50 + 1</code> → no: necesita 51 bits; el <code>1</code> se pierde.</li><li><code>2^24 + 1</code> → no: necesita 25 bits; el <code>1</code> se pierde.</li><li><code>2^26 + 2</code> → no: necesita 26 bits; el <code>2</code> se pierde.</li><li><code>0.1</code> → no: en binario es infinito periódico.</li><li><strong>Redondeo:</strong> truncado, hacia arriba/abajo o al par más cercano. El curso suele aceptar truncado si lo indicas.</li><li><strong><code>εmach</code>:</strong> distancia entre 1 y el siguiente float; mide el error relativo máximo. Para <code>float</code> es <code>2^-23</code>; para <code>double</code>, <code>2^-52</code>.</li></ul>
+<h2>8. Frases de teoría que conviene tener listas</h2>
+<table>
+<thead><tr>
+<th>Pregunta</th>
+<th>Respuesta corta</th>
+</tr></thead><tbody>
+<tr><td>¿Cuántos bits de precisión tiene un <code>float</code>?</td><td><strong>24</strong>: 23 del significando + 1 implícito.</td></tr>
+<tr><td>¿Cuántos exponentes distintos?</td><td><strong>254</strong>: 256 combinaciones menos <code>0</code> y <code>255</code>.</td></tr>
+<tr><td>¿Por qué se usa sesgo 127?</td><td>Para representar exponentes negativos sin bit de signo ni complemento a 2.</td></tr>
+<tr><td>¿Punto fijo vs flotante?</td><td>Fijo: más simple/rápido, poco rango. Flotante: más rango, menos precisión.</td></tr>
+<tr><td>¿Se pierde precisión al guardar?</td><td>Sí si el resultado exacto necesita más de 24 bits de significando.</td></tr>
+<tr><td>¿Qué es NaN?</td><td>Exponente <code>255</code> y significando <code>≠ 0</code>; resultado de operaciones inválidas (<code>0/0</code>, <code>∞−∞</code>).</td></tr>
+<tr><td>¿Qué es <code>±∞</code>?</td><td>Exponente <code>255</code> y significando <code>0</code>; se obtiene al desbordar o dividir por 0.</td></tr>
+</tbody></table>
+<h2>9. Errores típicos</h2>
+<ul><li>Aplicar el sesgo al revés: al <strong>guardar</strong> se <strong>suma</strong> 127; al <strong>leer</strong> se <strong>resta</strong> 127.</li><li>Olvidar el <strong>1 implícito</strong> al interpretar el significando.</li><li>Sumar exponentes sin restar el sesgo en la multiplicación.</li><li>Normalizar mal: <code>10.xxx × 2^e = 1.0xxx × 2^(e+1)</code>, no <code>2^(e−1)</code>.</li><li>Decir “no se pierde precisión” cuando el resultado exacto tiene más de 24 bits.</li><li>Confundir <code>NaN</code> con <code>∞</code>: <code>∞</code> tiene significando 0; <code>NaN</code> tiene significando distinto de 0.</li><li>En la suma, olvidar hacer shift right al número de <strong>menor</strong> exponente (no al mayor).</li><li>No indicar el resultado en <strong>binario normalizado</strong> cuando el enunciado lo exige.</li></ul>
+</section><section class="page-break">
+<h1 class="section-title">Cheatsheet 3 · I/O (P3)</h1>
+<h1>Cheatsheet 3 — I/O (P3)</h1>
+<blockquote><p><strong>Lo que se pregunta:</strong> comparar memory-mapped vs port-mapped, explicar el address decoder, polling vs interrupciones vs DMA, y <strong>describir por estados/comandos</strong> un código RISC-V que maneja un dispositivo.</p></blockquote>
+<h2>1. Memory-mapped vs port-mapped</h2>
+<table>
+<thead><tr>
+<th></th>
+<th><strong>Memory-mapped I/O</strong></th>
+<th><strong>Port-mapped / isolated I/O</strong></th>
+</tr></thead><tbody>
+<tr><td>Espacio de direcciones</td><td>El mismo que la RAM.</td><td>Espacio <strong>separado</strong> de I/O.</td></tr>
+<tr><td>Instrucciones</td><td>Las normales: <code>lw</code>, <code>sw</code>, <code>lb</code>, <code>sb</code>.</td><td>Especiales: <code>IN</code>, <code>OUT</code> (x86).</td></tr>
+<tr><td>Decodificación</td><td>Address decoder distingue RAM vs dispositivo por la dirección.</td><td>La CPU distingue por un <strong>pin</strong> o bus de I/O separado.</td></tr>
+<tr><td>ISA</td><td>No hay que cambiar la ISA.</td><td>Hay que agregar instrucciones o un modo de I/O.</td></tr>
+<tr><td>Ventaja</td><td>Simple, flexible, funciona con cualquier instrucción de load/store.</td><td>No consume espacio de memoria; puede ser más rápido para device registers.</td></tr>
+<tr><td>Desventaja</td><td>Ocupa direcciones de memoria; puede chocar con RAM.</td><td>Menos flexible; requiere hardware/ISA especial.</td></tr>
+<tr><td>Uso típico</td><td><strong>RISC-V</strong>, ARM, la mayoría de sistemas embebidos.</td><td><strong>x86</strong> (histórico).</td></tr>
+</tbody></table>
+<blockquote><p>En RISC-V <strong>no existen <code>IN</code>/<code>OUT</code></strong>: todo I/O es <strong>memory-mapped</strong>. Por eso el código de la P3 usa <code>lw</code>/<code>sw</code> con una dirección base y offsets.</p></blockquote>
+<h3>¿Por qué memory-mapped simplifica el hardware?</h3>
+<p>Porque el CPU sigue haciendo exactamente lo mismo: pone una dirección en el bus, activa lectura o escritura y mueve datos. El <strong>address decoder</strong> decide si esa dirección pertenece a RAM o a un dispositivo. No hay que agregar instrucciones ni un bus separado.</p>
+<h2>2. Address decoder</h2>
+<p>El decoder está entre el bus de direcciones/control y la RAM + dispositivos.</p>
+<p><strong>Entradas:</strong></p>
+<ul><li>Dirección (<code>Address</code>).</li><li>Señal de escritura/lectura (<code>W</code>, <code>Read</code>).</li><li>A veces <code>Request</code>/<code>Valid</code>.</li></ul>
+<p><strong>Salidas:</strong></p>
+<ul><li><code>Chip Select</code> de la RAM.</li><li><code>Chip Select</code> de cada dispositivo.</li><li>Selección del registro interno del dispositivo (status, data, control).</li></ul>
+<p><strong>Funcionamiento:</strong></p>
+<ol><li>Compara la dirección con el rango asignado a cada dispositivo.</li><li>Activa solo el <code>Chip Select</code> correspondiente.</li><li>Si es escritura, habilita la escritura del registro; si es lectura, pone el dato en el bus.</li></ol>
+<p><strong>¿Por qué va solo ahí?</strong> Porque es el único punto donde se decide <strong>a quién va dirigida</strong> la operación. El resto del CPU no necesita saber si habla con RAM o con un dispositivo: sigue ejecutando <code>lw</code>/<code>sw</code> normalmente. Si el decoder estuviera en otro lado, habría que duplicar lógica de selección en el datapath.</p>
+<h2>3. Polling (consulta repetida)</h2>
+<p>La CPU <strong>pregunta en un loop</strong> si el dispositivo está listo:</p>
+<pre><code class="language-text">loop:
+    leer status
+    si no está listo → volver a loop
+    leer/escribir dato</code></pre>
+<ul><li><strong>Ventaja:</strong> no requiere hardware de interrupciones; simple.</li><li><strong>Desventaja:</strong> la CPU <strong>desperdicia ciclos</strong> esperando; no puede hacer otra cosa.</li><li><strong>Cuándo conviene:</strong> dispositivos simples, lentos o de baja frecuencia; sistemas donde el CPU no tiene otra tarea. <strong>USB usa polling</strong> del host sobre el bus.</li><li><strong>Cuándo no conviene:</strong> disco, red, teclado en un sistema multiusuario; ahí se usan interrupciones o DMA.</li></ul>
+<h2>4. Interrupciones</h2>
+<h3>Idea</h3>
+<p>El dispositivo <strong>avisa</strong> a la CPU cuando necesita atención. La CPU termina la instrucción actual, guarda su estado y salta a una <strong>rutina de servicio de interrupción (ISR)</strong>. Al terminar, vuelve exactamente a donde estaba.</p>
+<h3>Pasos (sin controlador dedicado)</h3>
+<ol><li>El dispositivo activa <code>IRQ</code>.</li><li>La CPU termina la instrucción actual y <strong>guarda las condition codes</strong>.</li><li>Revisa <code>IF</code> (Interrupt Flag):</li><li><code>IF = 0</code> → la interrupción queda pendiente o se ignora.</li><li><code>IF = 1</code> → continúa.</li><li><code>IF = 0</code> para evitar interrupciones anidadas (si no se permiten).</li><li>Guarda el estado (PC, registros) y salta a la ISR.</li><li>La ISR guarda los registros que va a usar.</li><li>Ejecuta el servicio (leer dato, escribir comando, limpiar flag).</li><li>Restaura registros.</li><li><code>IRET</code>/<code>RET</code> vuelve a la instrucción siguiente.</li><li><code>IF = 1</code> y se restauran las condition codes.</li></ol>
+<h3>Pasos (con controlador de interrupciones)</h3>
+<ol><li>Dispositivo activa <code>IRQ</code>.</li><li>El controlador revisa <strong>máscara</strong> y <strong>prioridad</strong>.</li><li>Si corresponde, activa <code>INT</code> hacia la CPU y marca el pedido como <strong>in-service</strong>.</li><li>La CPU termina la instrucción, guarda estado y activa <code>INTA</code> (Interrupt Acknowledge).</li><li>El controlador entrega el <strong>ID</strong> del dispositivo de mayor prioridad.</li><li>La CPU usa el ID para indexar la <strong>tabla de vectores</strong> y saltar a la ISR.</li><li>La ISR atiende y escribe <strong>EOI</strong> (End Of Interrupt) al controlador.</li><li>El controlador limpia el bit in-service y puede atender el siguiente.</li></ol>
+<h3>Señales y conceptos</h3>
+<table>
+<thead><tr>
+<th>Concepto</th>
+<th>Qué hace</th>
+</tr></thead><tbody>
+<tr><td><code>IRQ</code></td><td>Pedido del dispositivo.</td></tr>
+<tr><td><code>INT</code></td><td>Pedido del controlador hacia la CPU.</td></tr>
+<tr><td><code>INTA</code></td><td>La CPU acepta y pide el ID.</td></tr>
+<tr><td><code>ID</code></td><td>Número/vector del dispositivo.</td></tr>
+<tr><td><strong>Máscara</strong></td><td>Permite/bloquea interrupciones por dispositivo.</td></tr>
+<tr><td><strong>Prioridad</strong></td><td>Decide cuál se atiende primero si hay varias.</td></tr>
+<tr><td><strong>In-service</strong></td><td>Marca que una interrupción está siendo atendida.</td></tr>
+<tr><td><strong>EOI</strong></td><td>La ISR avisa que terminó.</td></tr>
+<tr><td><strong>IF</strong></td><td>Flag global que habilita/deshabilita interrupciones.</td></tr>
+<tr><td><strong>Vector table</strong></td><td>Arreglo de direcciones de ISR indexado por ID.</td></tr>
+</tbody></table>
+<h3>Tipos</h3>
+<ul><li><strong>Externa / hardware:</strong> la genera un dispositivo (teclado, disco, timer).</li><li><strong>Interna / software:</strong> <code>ecall</code>, <code>INT n</code>, traps.</li><li><strong>Excepción:</strong> síncrona, causada por la instrucción actual (división por cero, acceso inválido, desbordamiento, instrucción ilegal).</li></ul>
+<h3>Ventajas y desventajas</h3>
+<ul><li><strong>Ventaja:</strong> la CPU no espera; atiende solo cuando hace falta.</li><li><strong>Desventaja:</strong> más hardware (controlador, vectores), más complejidad, latencia e impredecibilidad.</li><li><strong>Latencia de interrupción:</strong> tiempo desde <code>IRQ</code> hasta la primera instrucción de la ISR. Aumenta si <code>IF=0</code>, si hay una instrucción larga o si hay varias interrupciones de mayor prioridad.</li></ul>
+<h2>5. DMA (Direct Memory Access)</h2>
+<p>El <strong>controlador DMA</strong> mueve datos entre memoria y dispositivo <strong>sin que la CPU copie byte por byte</strong>.</p>
+<h3>Funcionamiento</h3>
+<ol><li>La CPU programa el DMA:</li><li>dirección de origen,</li><li>dirección de destino,</li><li>cantidad de words/bytes,</li><li>dirección (lectura/escritura),</li><li>modo (burst o cycle stealing).</li><li>La CPU le dice “parte” y sigue ejecutando.</li><li>El DMA pide el bus de memoria (o lo toma por ciclos).</li><li>Transfiere los datos.</li><li>Al terminar, genera una <strong>interrupción</strong> para avisar.</li></ol>
+<h3>Modos</h3>
+<ul><li><strong>Burst:</strong> el DMA toma el bus y transfiere un bloque completo; la CPU queda bloqueada.</li><li><strong>Cycle stealing:</strong> el DMA “roba” ciclos de memoria entre accesos de la CPU; más lento pero no bloquea.</li></ul>
+<h3>Ventajas / desventajas</h3>
+<ul><li><strong>Ventaja:</strong> libera a la CPU de copiar datos; ideal para discos, red, audio, video.</li><li><strong>Desventaja:</strong> hardware extra; compite por el bus; puede complicar la coherencia de caché.</li></ul>
+<blockquote><p>En este curso, DMA se usa con <strong>I/O mapeada en memoria</strong>, porque el controlador necesita direcciones de memoria para leer/escribir.</p></blockquote>
+<h2>6. Programmed I/O vs DMA</h2>
+<table>
+<thead><tr>
+<th></th>
+<th><strong>Programmed I/O (PIO)</strong></th>
+<th><strong>DMA</strong></th>
+</tr></thead><tbody>
+<tr><td>Quién mueve los datos</td><td>La CPU, con <code>lw</code>/<code>sw</code>.</td><td>El controlador DMA.</td></tr>
+<tr><td>Uso de CPU</td><td>Alto (loop de polling o ISR).</td><td>Bajo (solo programa y atiende el final).</td></tr>
+<tr><td>Velocidad</td><td>Limitada por la CPU.</td><td>Alta.</td></tr>
+<tr><td>Complejidad</td><td>Baja.</td><td>Alta.</td></tr>
+<tr><td>Uso típico</td><td>Dispositivos lentos/simples.</td><td>Discos, red, audio, video.</td></tr>
+</tbody></table>
+<h2>7. I/O en RISC-V</h2>
+<h3>Direcciones y offsets</h3>
+<ul><li>Los registros de un dispositivo suelen ser de <strong>32 bits</strong> → cada uno ocupa <strong>4 bytes</strong>.</li><li>Si la base es <code>0x00FF10AD</code>, los registros están en <code>base+0</code>, <code>base+4</code>, <code>base+8</code>, ...</li><li>En RISC-V no se puede hacer <code>lw t0, t1</code>: el load/store usa <strong>offset(base)</strong>: <code>lw t0, 0(t1)</code>, <code>sw t2, 4(t1)</code>.</li></ul>
+<h3>Patrón de polling</h3>
+<pre><code class="language-asm"># t0 = dirección base del dispositivo
+loop:
+    lw   t1, 0(t0)       # lee status
+    andi t1, t1, 1       # bit 0 = "listo"
+    beq  t1, zero, loop  # si no está listo, espera
+    lw   t2, 4(t0)       # lee dato
+    sw   t2, 8(t0)       # escribe comando / dato
+    j    loop</code></pre>
+<h3>Patrón con interrupción (conceptual)</h3>
+<pre><code class="language-asm"># La ISR:
+    lw   t1, 0(t0)       # status
+    lw   t2, 4(t0)       # dato
+    sw   t2, 8(t0)       # respuesta
+    sw   zero, 12(t0)    # limpiar flag / EOI
+    mret                 # o ret, según el sistema</code></pre>
+<h3>Cómo describir el código (lo que pide la P3)</h3>
+<p>No traduzcas línea por línea. Describe <strong>estados y comandos</strong>:</p>
+<ol><li><strong>Estado inicial:</strong> “El programa configura la base del dispositivo y entra en espera.”</li><li><strong>Estado de espera:</strong> “Lee el registro de status y repite mientras el bit de ‘listo’ sea 0.”</li><li><strong>Estado de lectura:</strong> “Cuando está listo, lee el dato desde <code>base+4</code>.”</li><li><strong>Estado de comando:</strong> “Escribe una orden en <code>base+8</code> para mover el robot / imprimir.”</li><li><strong>Estado de repetición:</strong> “Vuelve a esperar el siguiente dato.”</li><li>Si hay varios <code>step_*</code>, nómbralos: <code>step_wait</code>, <code>step_read</code>, <code>step_write</code>, <code>step_error</code>.</li></ol>
+<p><strong>Ejemplo de frase:</strong> “<code>step_wait</code> consulta el bit 0 de status; cuando vale 1, <code>step_read</code> lee el byte de dato y <code>step_cmd</code> escribe el comando en el registro de control. Luego vuelve a <code>step_wait</code>.”</p>
+<h2>8. Preguntas cortas que suelen caer</h2>
+<table>
+<thead><tr>
+<th>Pregunta</th>
+<th>Respuesta</th>
+</tr></thead><tbody>
+<tr><td>¿Por qué RISC-V usa memory-mapped?</td><td>Porque no tiene instrucciones <code>IN</code>/<code>OUT</code>; usa <code>lw</code>/<code>sw</code> normales.</td></tr>
+<tr><td>¿Qué hace el address decoder?</td><td>Selecciona RAM o dispositivo según la dirección y el tipo de acceso.</td></tr>
+<tr><td>¿Dónde va el decoder?</td><td>Entre el bus y la memoria/dispositivos; es el único punto de selección.</td></tr>
+<tr><td>¿Polling vs interrupción?</td><td>Polling espera activamente; interrupción avisa y libera a la CPU.</td></tr>
+<tr><td>¿Qué es una ISR?</td><td>Rutina que atiende la interrupción.</td></tr>
+<tr><td>¿Qué pasa si <code>IF=0</code>?</td><td>La interrupción no se atiende (queda pendiente o se pierde).</td></tr>
+<tr><td>¿Qué hace el controlador?</td><td>Arbitra prioridades, enmascara, entrega el ID y maneja EOI.</td></tr>
+<tr><td>¿DMA para qué sirve?</td><td>Mover bloques sin que la CPU copie dato por dato.</td></tr>
+<tr><td>¿DMA burst vs cycle stealing?</td><td>Burst toma el bus; cycle stealing intercala ciclos.</td></tr>
+<tr><td>¿Se puede hacer DMA con port-mapped?</td><td>En este curso no: se usa con memory-mapped.</td></tr>
+</tbody></table>
+<h2>9. Errores típicos</h2>
+<ul><li>Decir que memory-mapped “no ocupa memoria”: sí ocupa direcciones.</li><li>Confundir port-mapped con memory-mapped.</li><li>Creer que el address decoder está dentro de la ALU o del CPU: está en el bus.</li><li>Decir que polling es “más rápido” que interrupciones: puede ser más simple, pero desperdicia CPU.</li><li>Olvidar que la ISR debe <strong>limpiar el flag</strong> o hacer <strong>EOI</strong>; si no, la interrupción se repite.</li><li>No guardar/restaurar registros en la ISR.</li><li>Usar <code>lw t0, t1</code> en RISC-V: falta <code>offset(base)</code>.</li><li>Usar offsets de 1 byte cuando los registros son de 4 bytes.</li><li>Describir el código RISC-V línea por línea en vez de por estados/comandos.</li><li>Ignorar el bit de status y leer el dato antes de que esté listo.</li></ul>
+</section><section class="page-break">
+<h1 class="section-title">Cheatsheet 4 · RISC-V (P3)</h1>
+<h1>Cheatsheet 4 — RISC-V (P3)</h1>
+<blockquote><p><strong>Lo que se pregunta:</strong> leer/escribir código RISC-V, entender la convención de llamada, identificar qué hace una función y manejar registros/stack. En I2 suele venir junto con I/O.</p></blockquote>
+<h2>1. Modelo mental</h2>
+<ul><li><strong>ISA load/store:</strong> solo <code>lw</code>/<code>sw</code> (y variantes) acceden a memoria. Las operaciones aritméticas son registro-registro o registro-inmediato.</li><li><strong>32 registros</strong> de 32 bits (<code>x0</code>–<code>x31</code>). <code>x0</code> siempre vale 0.</li><li><strong>PC</strong> separado; no hay registro de flags. Los branches comparan <strong>dos registros</strong> directamente: <code>beq rs1, rs2, label</code>.</li><li><strong>Little-endian</strong>.</li><li><strong>Instrucciones de 32 bits</strong>, alineadas a 4 bytes.</li><li>No hay <code>IN</code>/<code>OUT</code>: el I/O es <strong>memory-mapped</strong> (<code>lw</code>/<code>sw</code> a direcciones de dispositivo).</li></ul>
+<h2>2. Registros y ABI</h2>
+<table>
+<thead><tr>
+<th>Registro</th>
+<th>Nombre ABI</th>
+<th>Uso</th>
+<th>¿Se preserva en llamada?</th>
+</tr></thead><tbody>
+<tr><td><code>x0</code></td><td><code>zero</code></td><td>Constante 0.</td><td>—</td></tr>
+<tr><td><code>x1</code></td><td><code>ra</code></td><td>Return address.</td><td><strong>Caller-saved</strong></td></tr>
+<tr><td><code>x2</code></td><td><code>sp</code></td><td>Stack pointer.</td><td><strong>Callee-saved</strong></td></tr>
+<tr><td><code>x3</code></td><td><code>gp</code></td><td>Global pointer.</td><td>Reservado</td></tr>
+<tr><td><code>x4</code></td><td><code>tp</code></td><td>Thread pointer.</td><td>Reservado</td></tr>
+<tr><td><code>x5–x7</code></td><td><code>t0–t2</code></td><td>Temporales.</td><td><strong>Caller-saved</strong></td></tr>
+<tr><td><code>x8</code></td><td><code>s0/fp</code></td><td>Saved / frame pointer.</td><td><strong>Callee-saved</strong></td></tr>
+<tr><td><code>x9</code></td><td><code>s1</code></td><td>Saved.</td><td><strong>Callee-saved</strong></td></tr>
+<tr><td><code>x10–x17</code></td><td><code>a0–a7</code></td><td>Argumentos / retorno.</td><td><strong>Caller-saved</strong></td></tr>
+<tr><td><code>x18–x27</code></td><td><code>s2–s11</code></td><td>Saved.</td><td><strong>Callee-saved</strong></td></tr>
+<tr><td><code>x28–x31</code></td><td><code>t3–t6</code></td><td>Temporales.</td><td><strong>Caller-saved</strong></td></tr>
+</tbody></table>
+<p><strong>Regla mnemotécnica:</strong></p>
+<ul><li><code>t</code> = temporary → si llamas a otra función, <strong>puede cambiar</strong>; guárdalo si lo necesitas después.</li><li><code>s</code> = saved → la función llamada <strong>debe restaurarlo</strong> si lo usa.</li><li><code>a</code> = argument/return → parámetros y resultado.</li><li><code>ra</code> = dirección de retorno → si tu función llama a otra, <strong>guárdalo</strong> en el stack.</li></ul>
+<h2>3. Formatos de instrucción</h2>
+<table>
+<thead><tr>
+<th>Tipo</th>
+<th>Para qué</th>
+<th>Campos (aprox.)</th>
+</tr></thead><tbody>
+<tr><td><strong>R</strong></td><td>Aritmética registro-registro</td><td><code>funct7, rs2, rs1, funct3, rd, opcode</code></td></tr>
+<tr><td><strong>I</strong></td><td>Inmediatos, loads, <code>jalr</code></td><td><code>imm[11:0], rs1, funct3, rd, opcode</code></td></tr>
+<tr><td><strong>S</strong></td><td>Stores</td><td><code>imm[11:5], rs2, rs1, funct3, imm[4:0], opcode</code></td></tr>
+<tr><td><strong>B</strong></td><td>Branches</td><td><code>imm, rs2, rs1, funct3, imm, opcode</code></td></tr>
+<tr><td><strong>U</strong></td><td><code>lui</code>, <code>auipc</code></td><td><code>imm[31:12], rd, opcode</code></td></tr>
+<tr><td><strong>J</strong></td><td><code>jal</code></td><td><code>imm, rd, opcode</code></td></tr>
+</tbody></table>
+<p>No hace falta memorizar los bits exactos para I2, pero sí saber que <strong>el inmediato de <code>addi</code> es de 12 bits con signo</strong> (<code>−2048..2047</code>) y que los branches tienen alcance limitado.</p>
+<h2>4. Instrucciones esenciales</h2>
+<h3>Aritmética y lógica</h3>
+<table>
+<thead><tr>
+<th>Instrucción</th>
+<th>Efecto</th>
+</tr></thead><tbody>
+<tr><td><code>add rd, rs1, rs2</code></td><td><code>rd = rs1 + rs2</code></td></tr>
+<tr><td><code>sub rd, rs1, rs2</code></td><td><code>rd = rs1 − rs2</code></td></tr>
+<tr><td><code>and rd, rs1, rs2</code></td><td><code>rd = rs1 &amp; rs2</code></td></tr>
+<tr><td><code>or rd, rs1, rs2</code></td><td><code>rd = rs1 | rs2</code></td></tr>
+<tr><td><code>xor rd, rs1, rs2</code></td><td><code>rd = rs1 ^ rs2</code></td></tr>
+<tr><td><code>sll rd, rs1, rs2</code></td><td>Shift left lógico por <code>rs2[4:0]</code></td></tr>
+<tr><td><code>srl rd, rs1, rs2</code></td><td>Shift right lógico</td></tr>
+<tr><td><code>sra rd, rs1, rs2</code></td><td>Shift right aritmético (preserva signo)</td></tr>
+<tr><td><code>slt rd, rs1, rs2</code></td><td><code>rd = (rs1 &lt; rs2) ? 1 : 0</code> (con signo)</td></tr>
+<tr><td><code>sltu rd, rs1, rs2</code></td><td>Igual, pero <strong>sin signo</strong></td></tr>
+<tr><td><code>addi rd, rs1, imm</code></td><td><code>rd = rs1 + imm</code> (imm 12 bits con signo)</td></tr>
+<tr><td><code>andi</code>, <code>ori</code>, <code>xori</code></td><td>Igual con inmediato</td></tr>
+<tr><td><code>slli</code>, <code>srli</code>, <code>srai</code></td><td>Shift con <code>shamt</code> de 5 bits</td></tr>
+<tr><td><code>slti</code>, <code>sltiu</code></td><td>Comparación con inmediato</td></tr>
+<tr><td><code>lui rd, imm20</code></td><td><code>rd = imm20 &lt;&lt; 12</code></td></tr>
+<tr><td><code>auipc rd, imm20</code></td><td><code>rd = PC + (imm20 &lt;&lt; 12)</code></td></tr>
+</tbody></table>
+<h3>Memoria</h3>
+<table>
+<thead><tr>
+<th>Instrucción</th>
+<th>Efecto</th>
+</tr></thead><tbody>
+<tr><td><code>lb rd, off(rs1)</code></td><td>Carga byte con <strong>signo</strong>.</td></tr>
+<tr><td><code>lbu rd, off(rs1)</code></td><td>Carga byte <strong>sin signo</strong>.</td></tr>
+<tr><td><code>lh</code>, <code>lhu</code></td><td>Halfword (16 bits), con/sin signo.</td></tr>
+<tr><td><code>lw rd, off(rs1)</code></td><td>Carga word (32 bits).</td></tr>
+<tr><td><code>sb rs2, off(rs1)</code></td><td>Guarda byte.</td></tr>
+<tr><td><code>sh rs2, off(rs1)</code></td><td>Guarda halfword.</td></tr>
+<tr><td><code>sw rs2, off(rs1)</code></td><td>Guarda word.</td></tr>
+</tbody></table>
+<p><strong>Sintaxis:</strong> <code>lw t0, 0(t1)</code> → dirección = <code>t1 + 0</code>. <strong>No</strong> existe <code>lw t0, t1</code>.</p>
+<h3>Saltos y branches</h3>
+<table>
+<thead><tr>
+<th>Instrucción</th>
+<th>Efecto</th>
+</tr></thead><tbody>
+<tr><td><code>beq rs1, rs2, label</code></td><td>Salta si <code>rs1 == rs2</code>.</td></tr>
+<tr><td><code>bne rs1, rs2, label</code></td><td>Salta si <code>rs1 != rs2</code>.</td></tr>
+<tr><td><code>blt rs1, rs2, label</code></td><td>Salta si <code>rs1 &lt; rs2</code> (con signo).</td></tr>
+<tr><td><code>bge rs1, rs2, label</code></td><td>Salta si <code>rs1 &gt;= rs2</code> (con signo).</td></tr>
+<tr><td><code>bltu</code>, <code>bgeu</code></td><td>Igual, sin signo.</td></tr>
+<tr><td><code>jal rd, label</code></td><td><code>rd = PC+4; PC = label</code>. <code>jal label</code> usa <code>ra</code>.</td></tr>
+<tr><td><code>jalr rd, off(rs1)</code></td><td><code>rd = PC+4; PC = rs1 + off</code>.</td></tr>
+<tr><td><code>jalr zero, 0(ra)</code></td><td><strong>Return</strong> (<code>ret</code>).</td></tr>
+</tbody></table>
+<h3>Pseudoinstrucciones útiles</h3>
+<table>
+<thead><tr>
+<th>Pseudo</th>
+<th>Se expande a</th>
+</tr></thead><tbody>
+<tr><td><code>li rd, imm</code></td><td><code>lui</code> + <code>addi</code> (o <code>addi</code> si cabe).</td></tr>
+<tr><td><code>la rd, label</code></td><td><code>auipc</code> + <code>addi</code>.</td></tr>
+<tr><td><code>mv rd, rs</code></td><td><code>addi rd, rs, 0</code>.</td></tr>
+<tr><td><code>not rd, rs</code></td><td><code>xori rd, rs, -1</code>.</td></tr>
+<tr><td><code>neg rd, rs</code></td><td><code>sub rd, zero, rs</code>.</td></tr>
+<tr><td><code>j label</code></td><td><code>jal zero, label</code>.</td></tr>
+<tr><td><code>ret</code></td><td><code>jalr zero, 0(ra)</code>.</td></tr>
+<tr><td><code>call label</code></td><td><code>jal ra, label</code> (+ <code>auipc</code> si está lejos).</td></tr>
+<tr><td><code>nop</code></td><td><code>addi zero, zero, 0</code>.</td></tr>
+<tr><td><code>beqz rs, label</code></td><td><code>beq rs, zero, label</code>.</td></tr>
+<tr><td><code>bnez rs, label</code></td><td><code>bne rs, zero, label</code>.</td></tr>
+<tr><td><code>bgt rs1, rs2, label</code></td><td><code>blt rs2, rs1, label</code>.</td></tr>
+<tr><td><code>ble rs1, rs2, label</code></td><td><code>bge rs2, rs1, label</code>.</td></tr>
+</tbody></table>
+<h2>5. Convención de llamada</h2>
+<h3>Argumentos y retorno</h3>
+<ul><li>Primeros <strong>8 argumentos</strong>: <code>a0–a7</code>.</li><li>Argumentos adicionales: <strong>en el stack</strong>, en orden.</li><li>Retorno: <code>a0</code> (y <code>a1</code> si es de 64 bits).</li><li><code>ra</code> guarda la dirección de retorno.</li></ul>
+<h3>Stack frame típico</h3>
+<pre><code class="language-asm">func:
+    addi sp, sp, -16       # reserva 16 bytes (múltiplo de 16)
+    sw   ra, 12(sp)        # guarda return address
+    sw   s0, 8(sp)         # guarda registros callee-saved que uses
+    sw   s1, 4(sp)
+    # ... cuerpo de la función ...
+
+    lw   s1, 4(sp)         # restaura en orden inverso
+    lw   s0, 8(sp)
+    lw   ra, 12(sp)
+    addi sp, sp, 16
+    ret                    # jalr zero, 0(ra)</code></pre>
+<p><strong>Checklist:</strong></p>
+<ol><li>¿Mi función llama a otra? → guarda <code>ra</code>.</li><li>¿Uso <code>s0–s11</code>? → guárdalos y restáuralos.</li><li>¿Uso <code>t0–t6</code> o <code>a0–a7</code> después de una llamada? → guárdalos <strong>antes</strong> de llamar.</li><li>¿El stack queda alineado a 16 bytes? → sí, usa múltiplos de 16.</li><li>¿Restauro <code>sp</code> exactamente como estaba? → sí.</li></ol>
+<h2>6. <code>ecall</code> (RARS)</h2>
+<table>
+<thead><tr>
+<th><code>a7</code></th>
+<th>Servicio</th>
+<th>Argumento</th>
+<th>Resultado</th>
+</tr></thead><tbody>
+<tr><td>1</td><td>Print int</td><td><code>a0</code></td><td>—</td></tr>
+<tr><td>4</td><td>Print string</td><td><code>a0</code> = dirección</td><td>—</td></tr>
+<tr><td>5</td><td>Read int</td><td>—</td><td><code>a0</code></td></tr>
+<tr><td>10</td><td>Exit</td><td>—</td><td>—</td></tr>
+<tr><td>11</td><td>Print char</td><td><code>a0</code></td><td>—</td></tr>
+<tr><td>12</td><td>Read char</td><td>—</td><td><code>a0</code></td></tr>
+</tbody></table>
+<h2>7. RV32F (floats)</h2>
+<ul><li>32 registros <code>f0–f31</code>: <code>ft0–ft11</code> (temporales), <code>fs0–fs11</code> (saved), <code>fa0–fa7</code> (args).</li><li><code>flw rd, off(rs1)</code> / <code>fsw rs2, off(rs1)</code> → carga/guarda float; la <strong>dirección</strong> va en un registro entero (<code>rs1</code>), el <strong>dato</strong> en un registro float.</li><li>Operaciones: <code>fadd.s</code>, <code>fsub.s</code>, <code>fmul.s</code>, <code>fdiv.s</code>, <code>fsqrt.s</code>, <code>fmin.s</code>, <code>fmax.s</code>.</li><li>Conversión: <code>fcvt.s.w rd, rs1</code> (int → float), <code>fcvt.w.s rd, rs1</code> (float → int, trunca).</li><li>Movimiento: <code>fmv.s.x rd, rs1</code>, <code>fmv.x.s rd, fs1</code>, <code>fmv.s rd, fs1</code>.</li><li>Comparación: <code>feq.s</code>, <code>flt.s</code>, <code>fle.s</code> → resultado en registro entero (<code>0/1</code>).</li><li><code>fcsr</code> contiene flags de excepción y modo de redondeo (<code>frm</code>).</li></ul>
+<h2>8. Leer código: qué buscar</h2>
+<ol><li><strong>Prólogo:</strong> <code>addi sp, sp, -N</code>, <code>sw ra, ...</code>, <code>sw s0, ...</code> → función con stack frame.</li><li><strong>Argumentos:</strong> usa <code>a0</code>, <code>a1</code>, ... al inicio.</li><li><strong>Loop:</strong> un label, un branch hacia atrás y un contador (<code>addi t0, t0, 1</code>).</li><li><strong>Array:</strong> <code>slli t0, i, 2</code> + <code>add t1, base, t0</code> + <code>lw t2, 0(t1)</code>.</li><li><strong>Llamada:</strong> <code>jal ra, func</code> o <code>call func</code>; después usa <code>a0</code> como resultado.</li><li><strong>Epílogo:</strong> restaura <code>ra</code>, <code>s*</code>, <code>sp</code>, luego <code>ret</code>.</li><li><strong>Recursión:</strong> busca que se guarde <code>ra</code> y los argumentos en el stack antes de la llamada recursiva.</li></ol>
+<h3>Ejemplo: suma de un arreglo</h3>
+<pre><code class="language-asm"># a0 = base, a1 = n; retorna suma en a0
+sum:
+    li   t0, 0          # i = 0
+    li   t1, 0          # suma = 0
+loop:
+    bge  t0, a1, done   # si i &gt;= n, termina
+    slli t2, t0, 2      # t2 = i * 4
+    add  t2, a0, t2     # t2 = base + i*4
+    lw   t3, 0(t2)      # t3 = A[i]
+    add  t1, t1, t3     # suma += A[i]
+    addi t0, t0, 1      # i++
+    j    loop
+done:
+    mv   a0, t1         # retorno
+    ret</code></pre>
+<h2>9. Errores típicos</h2>
+<ul><li><code>lw t0, t1</code> → falta <code>offset(base)</code>; debe ser <code>lw t0, 0(t1)</code>.</li><li>Usar <code>addi</code> con un inmediato fuera de <code>−2048..2047</code>; usa <code>li</code> o <code>lui</code>+<code>addi</code>.</li><li>Olvidar guardar <code>ra</code> antes de una llamada anidada.</li><li>Usar <code>t</code> registers después de una llamada sin guardarlos.</li><li>No restaurar <code>sp</code> al final.</li><li>Confundir <code>jalr zero, 0(ra)</code> (return) con <code>jalr ra, 0(ra)</code>.</li><li>En branches, comparar con <code>zero</code> cuando se necesita otra constante: usa <code>li</code> en un registro.</li><li>Olvidar que <code>lb</code> sign-extiende y <code>lbu</code> no.</li><li>En RV32F, usar un registro entero para el dato float (debe ser <code>f</code>).</li><li>Creer que RISC-V tiene flags: <strong>no</strong>; los branches comparan registros.</li></ul>
+</section><section class="page-break">
+<h1 class="section-title">Hoja de apuntes · 2 caras</h1>
+<h1>Hoja de apuntes I2 — 2 caras</h1>
+<blockquote><p>Copiar a mano una vez. Si algo no sale sin mirar, eso es lo que hay que repasar. Todo cabe en 2 caras si escribes chico; las tablas son la parte más importante.</p></blockquote>
+<hr>
+<h2>CARA 1 — Subrutinas + Floats</h2>
+<h3>Subrutinas: stack</h3>
+<pre><code class="language-text">SP = 255 al inicio; SP apunta al próximo libre; tope = SP+1
+PUSH: Mem[SP] ← val; SP--
+POP:  SP++; val ← Mem[SP]
+CALL: Mem[SP] ← PC+1; SP--; PC ← label
+RET:  SP++; PC ← Mem[SP]</code></pre>
+<h3>Señales</h3>
+<table>
+<thead><tr>
+<th>Instr</th>
+<th>Ciclos</th>
+<th>Señales</th>
+</tr></thead><tbody>
+<tr><td><code>CALL</code></td><td>1</td><td><code>W=1, DecSP=1, SAdd=SP, SDIn=PC+1, SPC=LIT, LPC=1, SAdder=PC</code></td></tr>
+<tr><td><code>RET</code></td><td>2</td><td>1: <code>IncSP=1</code>; 2: <code>SAdd=SP, SPC=DOUT, LPC=1</code></td></tr>
+<tr><td><code>PUSH A</code></td><td>1</td><td><code>W=1, DecSP=1, SAdd=SP, SDIn=ALU, SA=A, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>POP A</code></td><td>2</td><td>1: <code>IncSP=1</code>; 2: <code>SAdd=SP, LA=1, SA=ZERO, SB=DOUT, SOP=ADD</code></td></tr>
+<tr><td><code>RET1</code></td><td>1</td><td><code>LPC=1, IncSP=1, SAdd=ADDER, SAdder=SP, SPC=DOUT</code></td></tr>
+<tr><td><code>PUSHRW A</code></td><td>1</td><td><code>W=1, SAdd=ADDER, SAdder=SP, SDIn=ALU, SA=A, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>POPRD A</code></td><td>1</td><td><code>LA=1, SAdd=ADDER, SAdder=SP, SA=ZERO, SB=DOUT</code></td></tr>
+<tr><td><code>POP1 A</code></td><td>1</td><td><code>LA=1, IncSP=1, SAdd=ADDER, SAdder=SP, SA=ZERO, SB=DOUT</code></td></tr>
+<tr><td><code>MOV A,SP</code></td><td>1</td><td><code>LA=1, SA=SP, SB=ZERO, SOP=ADD</code></td></tr>
+<tr><td><code>CMP B,SP</code></td><td>1</td><td><code>SA=B, SB=SP, SOP=SUB</code>; loads en 0</td></tr>
+</tbody></table>
+<p><strong>Truco <code>SP+1</code>:</strong> <code>SAdder=SP</code> → Adder calcula <code>SP+1</code>; <code>SAdd=ADDER</code> → se usa como dirección. Permite <code>RET1</code>, <code>PUSHRW</code>, <code>POPRD</code> y <code>POP1</code> en 1 ciclo.</p>
+<p><strong>Hardware:</strong> Mux DataIn (<code>ALU</code> vs <code>PC+1</code>), Mux PC (<code>LIT</code> vs <code>DOUT</code>), Mux Address (<code>LIT/B/SP/ADDER</code>), Mux Adder (<code>PC</code> vs <code>SP</code>), SP con <code>IncSP/DecSP</code>, RA opcional (<code>LRA/SRA</code>).</p>
+<p><strong>Simulación:</strong> usa direcciones del enunciado. <code>CALL</code>/<code>PUSH</code> 1 celda; <code>POP</code>/<code>RET</code> 2. <code>CALL</code> guarda <code>PC+1</code>. <code>RET</code> puede saltar a otra parte si se pisó <code>Mem[SP+1]</code>. <code>MOV (B),A</code> puede pisar el retorno. Flags: los usa la última operación que los modifica.</p>
+<h3>Floats IEEE754 (32 bits)</h3>
+<pre><code class="language-text">S 1 | E 8 (sesgo 127) | M 23
+valor = (-1)^S × 1.M × 2^(E-127)
+precisión = 24 bits; exponentes = 254</code></pre>
+<table>
+<thead><tr>
+<th>E</th>
+<th>M</th>
+<th>Significado</th>
+</tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>±0</td></tr>
+<tr><td>0</td><td>≠0</td><td>subnormal</td></tr>
+<tr><td>1..254</td><td>cualquiera</td><td>normal</td></tr>
+<tr><td>255</td><td>0</td><td>±∞</td></tr>
+<tr><td>255</td><td>≠0</td><td>NaN</td></tr>
+</tbody></table>
+<p><strong>Guardar:</strong> binario → normalizar <code>1.xxx × 2^e</code> → <code>E=e+127</code> → <code>S|E|M</code>. <strong>Leer:</strong> hex → binario → separar → <code>e=E−127</code> → <code>1.M × 2^e</code>.</p>
+<p><strong>Suma:</strong> igualar exponentes (shift right al menor) → sumar significandos → normalizar → redondear. <strong>Multiplicación:</strong> <code>e=eA+eB</code> (o <code>E=EA+EB−127</code>) → multiplicar significandos → normalizar → redondear → <code>S=SA xor SB</code>.</p>
+<p><strong>Precisión:</strong> si el resultado exacto necesita &gt;24 bits, se pierde. <code>2^50+1</code> → se pierde el 1. <code>2^70</code> exacto. <code>0.1</code> no exacto. <code>εmach float = 2^-23</code>; <code>double = 2^-52</code>. <strong>Punto fijo:</strong> simple/rápido, poco rango. <strong>Flotante:</strong> más rango, menos precisión.</p>
+<hr>
+<h2>CARA 2 — I/O + RISC-V</h2>
+<h3>I/O</h3>
+<table>
+<thead><tr>
+<th></th>
+<th>Memory-mapped</th>
+<th>Port-mapped</th>
+</tr></thead><tbody>
+<tr><td>Espacio</td><td>mismo que RAM</td><td>separado</td></tr>
+<tr><td>Instrucciones</td><td><code>lw/sw</code></td><td><code>IN/OUT</code></td></tr>
+<tr><td>ISA</td><td>no cambia</td><td>cambia</td></tr>
+<tr><td>Uso</td><td>RISC-V</td><td>x86</td></tr>
+</tbody></table>
+<p><strong>Address decoder:</strong> entre bus y RAM/dispositivos; compara dirección, activa <code>Chip Select</code>, elige registro. Único punto de selección; el CPU no cambia.</p>
+<p><strong>Polling:</strong> CPU lee status en loop; simple, desperdicia ciclos. USB usa polling. <strong>Interrupción:</strong> dispositivo <code>IRQ</code> → controlador (<code>máscara</code>, <code>prioridad</code>, <code>in-service</code>) → <code>INT</code> → CPU termina instrucción, guarda estado, <code>IF=0</code> → <code>INTA</code> → ID → vector → ISR → <code>EOI</code> → <code>IF=1</code>. <strong>Tipos:</strong> hardware, software (<code>ecall</code>), excepción (división por 0, acceso inválido). <strong>DMA:</strong> CPU programa origen/destino/cantidad; DMA mueve; interrumpe al final. Burst = toma el bus; cycle stealing = intercala ciclos. Libera CPU; compite por bus.</p>
+<h3>RISC-V</h3>
+<p><strong>Registros:</strong> <code>zero, ra, sp, gp, tp, t0-6, s0-11, a0-7</code>. <strong>ABI:</strong> <code>t/a/ra</code> caller-saved; <code>s/sp</code> callee-saved; args <code>a0-a7</code>; retorno <code>a0</code>. <strong>No hay flags:</strong> branches comparan registros (<code>beq</code>, <code>bne</code>, <code>blt</code>, <code>bge</code>, <code>bltu</code>, <code>bgeu</code>). <strong>Load/store:</strong> <code>lw rd, off(rs1)</code>, <code>sw rs2, off(rs1)</code>; no <code>lw rd, rs1</code>. <strong>Saltos:</strong> <code>jal rd, label</code> (call), <code>jalr zero, 0(ra)</code> (ret), <code>j label</code>. <strong>Pseudo:</strong> <code>li</code>, <code>la</code>, <code>mv</code>, <code>not</code>, <code>neg</code>, <code>beqz</code>, <code>bnez</code>, <code>bgt</code>, <code>ble</code>, <code>ret</code>, <code>call</code>, <code>nop</code>. <strong>Inmediatos:</strong> <code>addi</code> 12 bits con signo; shifts 5 bits; <code>lui</code> carga bits 31:12. <strong>Stack frame:</strong></p>
+<pre><code class="language-asm">addi sp, sp, -16
+sw ra, 12(sp)
+sw s0, 8(sp)
+# ...
+lw s0, 8(sp)
+lw ra, 12(sp)
+addi sp, sp, 16
+ret</code></pre>
+<p><strong>RV32F:</strong> <code>flw/fsw</code>, <code>fadd.s</code>, <code>fsub.s</code>, <code>fmul.s</code>, <code>fdiv.s</code>, <code>fcvt.s.w</code>, <code>fcvt.w.s</code>; dirección en entero, dato en <code>f</code>; args <code>fa0-7</code>.</p>
+<p><strong>Leer código:</strong> prólogo → args → loop/branch → array (<code>slli</code>+<code>add</code>+<code>lw</code>) → llamada (<code>jal ra</code>) → epílogo. <strong>I/O RISC-V:</strong> base + offsets de 4 bytes (<code>0,4,8,...</code>); status loop; <code>lw</code>/<code>sw</code>.</p>
+<p><strong>Errores:</strong> no guardar <code>ra</code>; usar <code>t</code> después de llamada; no restaurar <code>sp</code>; <code>lw</code> sin offset; <code>addi</code> fuera de rango; confundir <code>lb</code> (signo) con <code>lbu</code>; creer que hay flags.</p>
+</section><section class="page-break">
+<h1 class="section-title">Plan de estudio · 2 días</h1>
+<h1>Plan de estudio I2 — 2 días</h1>
+<p><strong>Examen:</strong> jueves <strong>22 de octubre de 2026, 17:30</strong>. <strong>Formato probable:</strong> 3 preguntas de 6 pts (P1 subrutinas, P2 floats, P3 I/O + RISC-V). <strong>Meta:</strong> llegar al examen con los 4 temas resueltos al menos una vez y una I2 completa cronometrada.</p>
+<h2>Mapa de recursos</h2>
+<table>
+<thead><tr>
+<th>Tema</th>
+<th>Cheatsheet</th>
+<th>Ayudantía</th>
+<th>I2 para practicar</th>
+</tr></thead><tbody>
+<tr><td>Subrutinas</td><td><code>cheatsheet-1-subrutinas.md</code></td><td>AY7</td><td>2026-1 P1 (S1 y S2), 2025-2 P2, 2024-2 P2</td></tr>
+<tr><td>Floats</td><td><code>cheatsheet-2-floats.md</code></td><td>AY8</td><td>2026-1 P2 (S1 y S2), 2025-2 P1, 2024-2 P1, 2024-1 P1</td></tr>
+<tr><td>I/O</td><td><code>cheatsheet-3-io.md</code></td><td>AY11</td><td>2026-1 P3, 2025-2 P3, 2025-1 P2/P3, 2024-2 P3</td></tr>
+<tr><td>RISC-V</td><td><code>cheatsheet-4-riscv.md</code></td><td>AY9 y AY10</td><td>2026-1 P3, 2025-2 P3, 2025-1 P3</td></tr>
+</tbody></table>
+<blockquote><p>Las I2 están en <code>Interrogaciones/</code>. Las pautas de 2026-1 tienen dos versiones (S1 y S2); usa una como ensayo y la otra como banco extra.</p></blockquote>
+<hr>
+<h2>Martes 20 — Subrutinas + Floats</h2>
+<h3>15:00–15:20 · Preparación</h3>
+<ul><li>Lee <code>README.md</code> y hojea <code>hoja-apuntes.md</code>.</li><li>Ten abiertos: cheatsheet 1, AY7, I2 2026-1 P1 S1.</li></ul>
+<h3>15:20–17:00 · Subrutinas: teoría y hardware</h3>
+<ul><li>Lee <code>cheatsheet-1-subrutinas.md</code> completo.</li><li>Cierra el cheatsheet y explica en voz alta:</li><li>Por qué <code>SP</code> apunta al próximo libre.</li><li>Diferencia entre <code>RET</code> y <code>RET1</code>.</li><li>Para qué sirve cada mux (<code>SDIn</code>, <code>SPC</code>, <code>SAdd</code>, <code>SAdder</code>).</li><li>Cómo se implementa <code>PUSHRW</code> sin mover <code>SP</code>.</li><li>Si algo no sale, vuelve al cheatsheet y anótalo en el <strong>log de errores</strong>.</li></ul>
+<h3>17:00–18:30 · AY7 + I2 2026-1 P1</h3>
+<ul><li>Resuelve <strong>AY7 completa</strong> sin mirar la pauta.</li><li>Corrige con la pauta. Marca:</li><li>señales mal puestas,</li><li>ciclos mal contados,</li><li>simulación con direcciones equivocadas.</li><li>Luego resuelve <strong>I2 2026-1 P1 S1</strong> cronometrada (35 min).</li><li>Corrige y compara con <strong>P1 S2</strong> (misma habilidad, otra variante).</li></ul>
+<h3>18:30–19:00 · Break</h3>
+<h3>19:00–20:30 · Floats: teoría</h3>
+<ul><li>Lee <code>cheatsheet-2-floats.md</code>.</li><li>Practica sin mirar:</li><li><code>0x3E200000</code> → decimal.</li><li><code>−1.6875</code> → hex float.</li><li><code>0x58800000 + 0x3F800000</code> → resultado y precisión.</li><li><code>0xBF800000 × 0x7F800000</code> → resultado.</li><li>¿Cuántos bits de precisión y cuántos exponentes?</li><li>Verifica cada uno con el cheatsheet.</li></ul>
+<h3>20:30–22:00 · AY8 + I2 floats</h3>
+<ul><li>Resuelve <strong>AY8</strong>.</li><li>Corrige con pauta.</li><li>Resuelve <strong>I2 2026-1 P2</strong> (floats + I/O; haz solo floats por ahora).</li><li>Si queda tiempo: <strong>2025-2 P1</strong> (floats).</li></ul>
+<h3>Checklist del martes</h3>
+<ul><li>☐ Explico <code>CALL</code>/<code>RET</code>/<code>PUSH</code>/<code>POP</code> con señales.</li><li>☐ Implemento <code>RET1</code> en 1 ciclo y justifico el Mux Adder.</li><li>☐ Simulo un código con <code>CALL</code> y retorno pisado.</li><li>☐ Convierto decimal ↔ float hex.</li><li>☐ Sumo y multiplico floats normalizando.</li><li>☐ Explico pérdida de precisión con un ejemplo.</li></ul>
+<hr>
+<h2>Miércoles 21 — I/O + RISC-V + ensayo</h2>
+<h3>09:00–10:30 · I/O</h3>
+<ul><li>Lee <code>cheatsheet-3-io.md</code>.</li><li>Haz una tabla comparativa de memory-mapped vs port-mapped <strong>de memoria</strong>.</li><li>Explica en voz alta:</li><li>Qué hace el address decoder y por qué va ahí.</li><li>Polling vs interrupción.</li><li>Pasos de una interrupción con controlador.</li><li>DMA burst vs cycle stealing.</li><li>Resuelve <strong>AY11</strong>.</li></ul>
+<h3>10:30–12:00 · RISC-V</h3>
+<ul><li>Lee <code>cheatsheet-4-riscv.md</code>.</li><li>Repasa registros/ABI y stack frame.</li><li>Resuelve <strong>AY9</strong> y <strong>AY10</strong>.</li><li>Corrige con pautas. En cada error, anota si fue:</li><li>registro mal elegido,</li><li><code>ra</code> no guardado,</li><li>load/store mal escrito,</li><li>branch mal interpretado.</li></ul>
+<h3>12:00–13:00 · Break</h3>
+<h3>13:00–14:30 · I/O + RISC-V en exámenes</h3>
+<ul><li>Resuelve <strong>I2 2025-2 P3</strong> (I/O + RISC-V).</li><li>Corrige.</li><li>Lee <strong>I2 2026-1 P3</strong> y <strong>2025-1 P3</strong>; identifica el patrón de respuesta por estados/comandos.</li><li>Practica describir un código en 4–6 frases, sin línea por línea.</li></ul>
+<h3>14:30–15:00 · Descanso corto</h3>
+<h3>15:00–17:00 · Ensayo I2 completa</h3>
+<ul><li>Resuelve <strong>P1 S1 + P2 S1 de I2 2026-1</strong> en 2 horas, sin apuntes.</li><li>Orden sugerido: P1 (35 min) → P2 (40 min) → P3 (35 min) → revisión (10 min).</li><li>Si te trabas en una pregunta, marca y sigue. No dejes preguntas en blanco.</li></ul>
+<h3>17:00–18:30 · Corrección del ensayo</h3>
+<ul><li>Corrige con las pautas P1/P2 S1.</li><li>Anota cada error en el log con: tema, causa, regla correcta.</li><li>Calcula tu puntaje por pregunta. Identifica el tema más débil.</li></ul>
+<h3>18:30–20:00 · Repaso dirigido</h3>
+<ul><li>Vuelve al cheatsheet del tema más débil.</li><li>Rehaz <strong>solo</strong> los ejercicios que fallaste.</li><li>Si el error fue de tiempo, practica el mismo tipo en 15 min.</li></ul>
+<h3>Checklist del miércoles</h3>
+<ul><li>☐ Distingo memory-mapped vs port-mapped.</li><li>☐ Sé dibujar el flujo de una interrupción.</li><li>☐ Explico DMA sin confundirlo con polling.</li><li>☐ Leo un código RISC-V y digo qué hace.</li><li>☐ Escribo una función con stack frame correcto.</li><li>☐ Hice una I2 completa cronometrada.</li></ul>
+<hr>
+<h2>Jueves 22 — Repaso y examen</h2>
+<h3>09:00–10:30 · Hoja de apuntes</h3>
+<ul><li>Copia <code>hoja-apuntes.md</code> a mano <strong>sin mirar</strong>.</li><li>Compara con el original y marca lo que faltó.</li><li>Repasa solo esas partes.</li></ul>
+<h3>10:30–11:30 · Log de errores</h3>
+<ul><li>Lee tu log de errores del martes y miércoles.</li><li>Para cada error, di en voz alta la regla correcta.</li><li>No resuelvas ejercicios nuevos.</li></ul>
+<h3>11:30–12:30 · Repaso rápido</h3>
+<ul><li>15 min subrutinas: tabla de señales.</li><li>15 min floats: suma/multiplicación.</li><li>15 min I/O: interrupciones/DMA.</li><li>15 min RISC-V: ABI/stack frame.</li></ul>
+<h3>12:30–14:30 · Almuerzo y descanso</h3>
+<ul><li>No estudies. Duerme si puedes.</li></ul>
+<h3>14:30–15:30 · Última pasada</h3>
+<ul><li>Solo cheatsheets y hoja.</li><li>Revisa las 5 cosas que más se te olvidan.</li><li>Prepara lápiz, calculadora si se permite, y tu hoja.</li></ul>
+<h3>15:30–16:30 · Traslado</h3>
+<ul><li>Llega con margen. No repases en el camino si te pone nervioso.</li></ul>
+<h3>17:30 · Examen</h3>
+<hr>
+<h2>Ruta exprés (si solo tienes 1 día)</h2>
+<ol><li><strong>2 h Subrutinas:</strong> cheatsheet 1 + AY7 + P1 2026-1.</li><li><strong>2 h Floats:</strong> cheatsheet 2 + AY8 + P2 2026-1 (solo floats).</li><li><strong>1.5 h I/O:</strong> cheatsheet 3 + AY11 + P3 2026-1.</li><li><strong>1.5 h RISC-V:</strong> cheatsheet 4 + AY9 + leer P3 2025-2.</li><li><strong>2 h ensayo:</strong> P1 + P2 + P3 de 2026-1.</li><li><strong>1 h hoja:</strong> copiar <code>hoja-apuntes.md</code> a mano.</li></ol>
+<h2>Estrategia en el examen</h2>
+<ul><li><strong>P1 (6 pts):</strong> primero la tabla de señales; después la simulación. La simulación tiene puntos parciales: deja el trace aunque no termines.</li><li><strong>P2 (6 pts):</strong> muestra el binario normalizado y el hex; si no alcanzas a terminar, deja planteadas las operaciones.</li><li><strong>P3 (6 pts):</strong> 3 pts conceptuales + 3 pts RISC-V. Responde primero lo conceptual; es rápido.</li><li>Si una pregunta tiene 3 partes, no te quedes 20 min en la primera.</li><li>Revisa unidades, sesgo, <code>PC+1</code>, y si el resultado quedó en <code>a0</code>.</li></ul>
+<h2>Log de errores (plantilla)</h2>
+<table>
+<thead><tr>
+<th>Fecha</th>
+<th>Tema</th>
+<th>Ejercicio</th>
+<th>Qué hice mal</th>
+<th>Regla correcta</th>
+</tr></thead><tbody>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table>
+<h2>Qué NO entra (aunque aparezca en I2 antiguas)</h2>
+<ul><li>Caché, memoria virtual, TLB.</li><li>Pipelining, hazards, ILP, coherencia.</li><li>Arquitecturas RISC vs CISC, Harvard vs Von Neumann (teoría).</li><li>Multiprocesadores, consistencia, sincronización.</li></ul>
+<p>Están en <code>Interrogaciones/anteriores/</code> solo como material histórico. <strong>No los estudies para este I2.</strong></p>
+</section>
+<footer>
+  Material de estudio personal — no distribuir. Basado en la Clase 16 (Repaso I2),
+  clases S2, guías 2026-1 y las I2 históricas.
+</footer>
+</body>
+</html>
